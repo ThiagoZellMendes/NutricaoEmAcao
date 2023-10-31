@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "nutricaoEmacao",
+    "slug": "nutricaoEmacao",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
