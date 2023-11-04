@@ -1,10 +1,23 @@
 {
   "expo": {
-    "name": "nutricaoEmacao",
-    "slug": "nutricaoEmacao",
+    "name": "Nutriçãoa em Ação",
+    "slug": "nutricaoamacao",
+    "scheme": "nutricaoemacao",
     "version": "1.0.0",
+    "splash": {
+      "image": "./src/assets/splashNutri.png",
+      "resizeMode": "contain",
+      "background": "./src/assets/bg.png"
+    },
+    "icon": "./src/assets/iconNutri.png",
     "assetBundlePatterns": [
       "**/*"
-    ]
-  }
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "afa0cf78-bc25-42b2-83ad-0ccd20b4216e"
+      }
+    }
+  },
+  "name": "NutricaoEmAcao"
 }
