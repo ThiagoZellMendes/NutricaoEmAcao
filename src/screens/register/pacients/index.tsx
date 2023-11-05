@@ -18,6 +18,11 @@ import {
 } from "./styles"
 import { DropdownComponent } from "../../../components/DropDonwList"
 
+const data = [
+  { label: "Masculino", value: "M" },
+  { label: "Feminino", value: "F" },
+] as any
+
 export function RegisterPatients() {
   const [sexo, setSexo] = useState()
   const { navigate } = useNavigation<any>()
@@ -26,7 +31,6 @@ export function RegisterPatients() {
     cpf: Yup.string().required("digite seu CPF"),
     name: Yup.string().required("digite o nome do paciente"),
     idade: Yup.string().required("digite seu sobrenome"),
-    sexo: Yup.string().required("digite seu CPF"),
   })
 
   const handleRegister = () => {
@@ -43,7 +47,7 @@ export function RegisterPatients() {
     resolver: yupResolver(schema),
   })
 
-  console.log(sexo)
+  console.log('🔥', sexo)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
@@ -77,17 +81,11 @@ export function RegisterPatients() {
               />
             </ContainerForm>
             <ContainerForm>
-              <InputForm
-                name="sexo"
-                control={control}
-                placeholder={"Selecione o sexo do paciente"}
-                errorInput={errors.sexo && errors.sexo.message}
-              />
-            </ContainerForm>
-            <ContainerForm>
               <DropdownComponent 
-                placeholderDrop={"Selecione o sexo do paciente"}
-                item={setSexo}
+                data={data} 
+                placeholder="Escolha o sexo do paciente"
+                setValue={setSexo}
+                value={sexo}
                 />
             </ContainerForm>
           </ContentRegister>

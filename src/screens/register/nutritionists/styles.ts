@@ -6,7 +6,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 export const Container = styled(GestureHandlerRootView)`
   flex: 1;
-  margin-top: 100px;
+  padding-top: 100px;
 `
 
 export const BackgroundContent = styled(BackgroundComponent)`
