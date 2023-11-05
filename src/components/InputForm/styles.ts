@@ -8,5 +8,5 @@ export const Container = styled.View`
 export const ErrorInput = styled.Text`
   font-size: ${RFValue(14)}px;
   color: ${({theme}) => theme.colors.attention};
-  margin: 7px 0;
+  /* margin: 2px 0; */
 `;

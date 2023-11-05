@@ -26,6 +26,7 @@ export function RoutersApp() {
             headerTintColor: "#65717B",
             headerTitle: 'Registro Nutricionista',
             headerTransparent: true,
+            headerStyle: {backgroundColor: "#F0F2F5"},
           }}
         />
         <Screen
@@ -36,6 +37,7 @@ export function RoutersApp() {
             headerTintColor: "#65717B",
             headerTitle: 'Registro Paciente',
             headerTransparent: true,
+            headerStyle: {backgroundColor: "#FFFFFF"},
           }}
         />
       </Navigator>
