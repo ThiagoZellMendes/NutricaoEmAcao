@@ -4,17 +4,15 @@ import { RFValue } from 'react-native-responsive-fontsize';
 
 
 export const DropdownList = styled(Dropdown).attrs(({ theme }) => ({
-  placeholderStyle:{color: theme.colors.text},
-  selectedTextStyle:{color: theme.colors.title_dark},
+  placeholderStyle:{color: theme.colors.text, fontSize: RFValue(14),  },
+  selectedTextStyle:{color: theme.colors.title_dark },
   // inputSearchStyle:{color: theme.colors.text},
-  iconStyle:{ width: 20,
-  height: 20},
-  maxHeight: 300,
+  // iconStyle:{ width: 20,height: 20},
+  // maxHeight: 300,
   }))
 `
   width:100%;
-  padding:  15px 16px;
-  font-size: ${RFValue(14)}px;
+  padding: 10px 16px 10px 16px ;
   color: ${({theme}) => theme.colors.title_dark};
   background-color: ${({theme}) => theme.colors.shape};
   border-radius: 4px;
