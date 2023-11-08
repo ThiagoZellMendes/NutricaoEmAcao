@@ -1,7 +1,7 @@
 import styled from "styled-components/native"
 import { BackgroundComponent } from "../../../components/Background"
 import { RFValue } from "react-native-responsive-fontsize"
-import { View } from "react-native"
+import { Platform, View } from "react-native"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 export const Container = styled(GestureHandlerRootView)`
@@ -26,4 +26,5 @@ export const ContainerForm = styled(View)`
 export const ButtonContainer = styled.View`
   width: 100%;
   padding: 0px ${RFValue(20)}px;
+  margin-bottom: ${() => Platform.OS === 'android' ? '16px' : '0px'};
 `
