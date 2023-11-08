@@ -4,13 +4,17 @@ import React from "react"
 import { SignIn } from "../screens/signIn"
 import { RegisterNutritionists } from "../screens/register/nutritionists"
 import { RegisterPatients } from "../screens/register/pacients"
+import { ListCalculate } from "../screens/listCalculate"
+import { ListPatients } from "../screens/listPatients"
+import { CalculationImc } from "../screens/calculations/imc"
+import { CalculationPgc } from "../screens/calculations/pgc"
 
 const { Screen, Navigator } = createNativeStackNavigator()
 
 export function RoutersApp() {
   return (
     <NavigationContainer>
-      <Navigator>
+      <Navigator initialRouteName="CalculationPgc">
         <Screen
           name="SignIn"
           component={SignIn}
@@ -36,6 +40,50 @@ export function RoutersApp() {
             headerBackTitleVisible: false,
             headerTintColor: "#65717B",
             headerTitle: 'Registro Paciente',
+            headerTransparent: true,
+            headerStyle: {backgroundColor: "#FFFFFF"},
+          }}
+        />
+        <Screen
+          name="ListCalculate"
+          component={ListCalculate}
+          options={{ 
+            headerBackTitleVisible: false,
+            headerTintColor: "#65717B",
+            headerTitle: ' ',
+            headerTransparent: true,
+            headerStyle: {backgroundColor: "#FFFFFF"},
+          }}
+        />
+        <Screen
+          name="ListPatients"
+          component={ListPatients}
+          options={{ 
+            headerBackTitleVisible: false,
+            headerTintColor: "#65717B",
+            headerTitle: ' ',
+            headerTransparent: true,
+            headerStyle: {backgroundColor: "#FFFFFF"},
+          }}
+        />
+        <Screen
+          name="CalculationImc"
+          component={CalculationImc}
+          options={{ 
+            headerBackTitleVisible: false,
+            headerTintColor: "#65717B",
+            headerTitle: 'Índice de massa Corporal',
+            headerTransparent: true,
+            headerStyle: {backgroundColor: "#FFFFFF"},
+          }}
+        />
+        <Screen
+          name="CalculationPgc"
+          component={CalculationPgc}
+          options={{ 
+            headerBackTitleVisible: false,
+            headerTintColor: "#65717B",
+            headerTitle: 'Percentual de Gordura Corporal',
             headerTransparent: true,
             headerStyle: {backgroundColor: "#FFFFFF"},
           }}
