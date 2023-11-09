@@ -1,36 +1,45 @@
 import React from "react"
-import { RectButtonProps } from "react-native-gesture-handler"
-import { ButtonComponent, Container, Title } from "./styles"
-import { InputForm } from "../../InputForm"
+import { Container, Content, ErrorInput, Input, TextCalculater } from "./styles"
+import { Control, Controller } from "react-hook-form"
+import { Text, TextInputProps } from "react-native"
 
-
-
-interface Props extends RectButtonProps {
+interface Props extends TextInputProps {
   name: string
-  isActive: boolean
-  placeholder: string
-  control: any
-  errorInput: any
+  TitleCalculate: string
+  isActive?: boolean
+  placeholder?: string
+  control: Control
+  errorInput: Object
 }
-export function InputCalculations({ name, isActive, placeholder, control, errorInput, ...rest }: Props) {
-
-
-
-  // const handleRegister = () => {
-  //   navigate("SignIn")
-  //   console.log("Nutricionista cadastrado com sucesso")
-  // }
-
-
+export function InputCalculations({
+  name,
+  TitleCalculate,
+  isActive = false,
+  placeholder,
+  control,
+  errorInput,
+  ...rest
+}: Props) {
   return (
     <Container isActive={isActive}>
-      <InputForm
-        control={control}
-        name={name}
-        placeholder={placeholder}
-        errorInput={errorInput}
-        keyboardType="numeric"
-      />
+      <Content>
+        <TextCalculater>{TitleCalculate}:</TextCalculater>
+        <Controller
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              onChangeText={onChange}
+              value={value}
+              {...rest}
+              placeholder={placeholder}
+              keyboardType="numeric"
+              textAlign="right"
+            />
+          )}
+          name={name}
+        />
+      </Content>
+        {errorInput && <ErrorInput>{errorInput}</ErrorInput>}
     </Container>
   )
 }

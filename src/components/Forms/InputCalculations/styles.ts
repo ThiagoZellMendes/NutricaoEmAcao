@@ -1,29 +1,48 @@
-import { Feather } from "@expo/vector-icons";
-import { RectButton } from "react-native-gesture-handler";
-import { RFValue } from "react-native-responsive-fontsize";
-import styled, { css } from "styled-components/native";
-
-
+import { Feather } from "@expo/vector-icons"
+import { RectButton } from "react-native-gesture-handler"
+import { RFValue } from "react-native-responsive-fontsize"
+import styled, { css } from "styled-components/native"
+import { InputForm } from "../../InputForm"
+import { TextInput } from "react-native"
 
 interface ContainerProps {
-  isActive: boolean;
+  isActive: boolean
 }
 
 export const Container = styled.View<ContainerProps>`
-  width: 48%;
-  border-width: ${({ isActive }) => (isActive ? 0 : 1.5)}px;
-  border-style: solid;
-  border-color: ${({ theme }) => theme.colors.text};
-  border-radius: 5px;
+  height: 70px;
+  border-radius: 4px;
+  border: 2px;
+  border-color: ${({theme}) => theme.colors.success_light};
+`
 
-`;
-export const ButtonComponent = styled(RectButton)`
+export const Content = styled.View`
+  height: 100%;
+  justify-content: space-between;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-`;
+`
 
 export const Title = styled.Text`
   font-size: ${RFValue(14)}px;
-`;
+`
+
+export const Input = styled(TextInput)`
+  width: 100%;
+  height: 100%;
+  font-size: ${RFValue(16)}px;
+  font-weight: bold;
+  padding-right: 10px;
+  /* background-color: aqua; */
+`
+export const TextCalculater = styled.Text`
+  position: absolute;
+  margin: 5px;
+  font-size: ${RFValue(10)}px;
+  font-weight: bold;
+`
+
+export const ErrorInput = styled.Text`
+  font-size: ${RFValue(10)}px;
+  color: ${({ theme }) => theme.colors.attention};
+  margin: ${RFValue(1)}px 0;
+`
