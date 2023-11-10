@@ -11,8 +11,8 @@ interface ContainerProps {
 
 export const Container = styled.View<ContainerProps>`
   height: 70px;
-  border-radius: 4px;
-  border: 2px;
+  border-radius: 2px;
+  border: 3px;
   border-color: ${({theme}) => theme.colors.success_light};
 `
 
@@ -32,7 +32,7 @@ export const Input = styled(TextInput)`
   font-size: ${RFValue(16)}px;
   font-weight: bold;
   padding-right: 10px;
-  /* background-color: aqua; */
+
 `
 export const TextCalculater = styled.Text`
   position: absolute;
