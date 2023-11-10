@@ -3,17 +3,15 @@ import { RectButtonProps } from "react-native-gesture-handler";
 import { ButtonComponent, Container, Icon, Title } from "./styles";
 
 const icons = {
-  up: "arrow-up-circle",
-  down: "arrow-down-circle",
+  M: "man",
+  F: "woman",
 };
 
 interface Props extends RectButtonProps {
-  type: "up" | "down";
-  title: string;
+  type: "M" | "F";
   isActive: boolean;
 }
-export function TransactionTypeButton({
-  title,
+export function SexButton({
   type,
   isActive,
   ...rest
@@ -22,7 +20,6 @@ export function TransactionTypeButton({
     <Container isActive={isActive} type={type}>
       <ButtonComponent {...rest}>
         <Icon name={icons[type]} type={type} />
-        <Title>{title}</Title>
       </ButtonComponent>
     </Container>
   );

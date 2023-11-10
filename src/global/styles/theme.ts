@@ -11,6 +11,9 @@ export default {
     attention: '#E83D5B',
     attention_light: 'rgba(232,63,91,0.5)',
 
+    sexMan:"#2f80ed",
+    sexWoman: "#9b51e0",
+
     shape: '#FFFFFF',
     title: '#65717B',
     title_dark: '#343A40',

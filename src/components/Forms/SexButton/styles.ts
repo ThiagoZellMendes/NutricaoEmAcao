@@ -1,36 +1,37 @@
-import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { RectButton } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled, { css } from "styled-components/native";
 
 interface IconsProps {
-  type: "up" | "down";
+  type: "M" | "F";
 }
 
 interface ContainerProps {
   isActive: boolean;
-  type: "up" | "down";
+  type: "M" | "F";
 }
 
 export const Container = styled.View<ContainerProps>`
   width: 48%;
   border-width: ${({ isActive }) => (isActive ? 0 : 1.5)}px;
   border-style: solid;
-  border-color: ${({ theme }) => theme.colors.text};
+  border-color: ${({ theme }) => theme.colors.title};
   border-radius: 5px;
+  background-color: ${({ theme }) => theme.colors.background};;
   
 
   ${({ isActive, type }) =>
     isActive &&
-    type === "up" &&
+    type === "M" &&
     css`
-      background-color: ${({ theme }) => theme.colors.success_light};
+      background-color: ${({ theme }) => theme.colors.sexMan};
     `}
   ${({ isActive, type }) =>
     isActive &&
-    type === "down" &&
+    type === "F" &&
     css`
-      background-color: ${({ theme }) => theme.colors.attention_light};
+      background-color: ${({ theme }) => theme.colors.sexWoman};
     `}
 `;
 
@@ -41,11 +42,12 @@ export const ButtonComponent = styled(RectButton)`
   padding: 16px;
 `;
 
-export const Icon = styled(Feather)<IconsProps>`
+export const Icon = styled(Ionicons)<IconsProps>`
   font-size: ${RFValue(24)}px;
   margin-right: 12px;
-  color: ${({ theme, type }) =>
-    type === "up" ? theme.colors.success : theme.colors.attention};
+  color: #000;
+  /* color: ${({ theme, type }) =>
+    type === "M" ? theme.colors.success : theme.colors.attention}; */
 `;
 
 export const Title = styled.Text`
