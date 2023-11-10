@@ -12,30 +12,36 @@ export const BackgroundContent = styled(BackgroundComponent)``
 
 export const Content = styled.View`
   flex: 1;
-  justify-content: space-between;
-  width: 100%;
+  align-self: center;
   padding: 0 ${RFValue(16)}px;
+  justify-content: space-between;
+  margin-bottom: ${() => (Platform.OS === "android" ? "20px" : "30px")};
 `
+export const ContainerSex = styled.View`
+  margin-top: 200px;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: ${RFValue(30)}px;
+`
+
 export const ContainerAge = styled(View)`
   align-self: center;
   width: 100%;
-  margin-bottom: ${RFValue(20)}px;
-  margin-top: 250px;
+  margin-bottom: ${RFValue(15)}px;
 `
 export const ContainerSkinFolds = styled(View)`
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: ${RFValue(20)}px;
+  margin-bottom: ${RFValue(15)}px;
 `
 
 export const ContainerCalculaters = styled.View``
 
 export const ContainerInputsdoubles = styled.View`
-  width: ${RFValue(130)}px;
+  width: 47%;
 `
 
 export const ButtonContainer = styled.View`
-  width: 100%;
-  padding: ${RFValue(20)}px;
-  margin-bottom: ${() => (Platform.OS === "android" ? "16px" : "0px")};
+  justify-content: space-between;
+  flex-direction: row;
 `

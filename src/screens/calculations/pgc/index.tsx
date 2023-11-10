@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 import {
   BackgroundContent,
@@ -7,6 +7,7 @@ import {
   ContainerAge,
   ContainerCalculaters,
   ContainerInputsdoubles,
+  ContainerSex,
   ContainerSkinFolds,
   Content,
 } from "./styles"
@@ -16,15 +17,16 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { ButtonComponent } from "../../../components/ButtonComponent"
 import { Input } from "../../../components/Forms/Input"
+import { SexButton } from "../../../components/Forms/SexButton"
+import { Alert } from "react-native"
 
 export function CalculationPgc() {
+  const [sex, setSex] = useState("")
+  const [isActive, setIsActive] = useState(null)
+
   const schema = Yup.object().shape({
     idade: Yup.string().trim().required("Digite sua idade"),
   })
-
-  const handleCalculate = () => {
-    console.log("Calculo feito")
-  }
 
   const {
     control,
@@ -34,17 +36,44 @@ export function CalculationPgc() {
   } = useForm({
     resolver: yupResolver(schema),
   })
+  const handleCalculate = () => {
+    Alert.alert('Calculo Feito com sucesso!')
+  }
+
+  function handleSexButton(type: "M" | "F") {
+    setSex(type)
+  }
+
+  function handleClean() {
+    setSex('')
+    reset()
+    Alert.alert('Calculos Resetados')
+  }
+
   return (
     <Container>
       <BackgroundContent>
         <Content>
           <ContainerCalculaters>
+            <ContainerSex>
+              <SexButton
+                isActive={sex === "M"}
+                type="M"
+                onPress={() => handleSexButton("M")}
+              />
+              <SexButton
+                isActive={sex === "F"}
+                type="F"
+                onPress={() => handleSexButton("F")}
+              />
+            </ContainerSex>
             <ContainerAge>
               <InputCalculations
                 name="idade"
                 TitleCalculate="Idade"
                 isActive={true}
                 control={control}
+                placeholder="0"
                 errorInput={errors.idade && errors.idade.message}
               />
             </ContainerAge>
@@ -55,6 +84,7 @@ export function CalculationPgc() {
                   TitleCalculate="Tríceps"
                   isActive={true}
                   control={control}
+                  placeholder="0"
                   errorInput={errors.idade && errors.idade.message}
                 />
               </ContainerInputsdoubles>
@@ -64,6 +94,7 @@ export function CalculationPgc() {
                   TitleCalculate="Bíceps"
                   isActive={true}
                   control={control}
+                  placeholder="0"
                   errorInput={errors.idade && errors.idade.message}
                 />
               </ContainerInputsdoubles>
@@ -75,6 +106,7 @@ export function CalculationPgc() {
                   TitleCalculate="subescapular"
                   isActive={true}
                   control={control}
+                  placeholder="0"
                   errorInput={errors.idade && errors.idade.message}
                 />
               </ContainerInputsdoubles>
@@ -84,17 +116,27 @@ export function CalculationPgc() {
                   TitleCalculate="Supra Íliaca"
                   isActive={true}
                   control={control}
+                  placeholder="0"
                   errorInput={errors.idade && errors.idade.message}
                 />
               </ContainerInputsdoubles>
             </ContainerSkinFolds>
           </ContainerCalculaters>
           <ButtonContainer>
-            <ButtonComponent
-              title={"Calcular"}
-              nameIcon="chevron-right"
-              onPress={handleSubmit(handleCalculate)}
-            />
+            <ContainerInputsdoubles>
+              <ButtonComponent
+                title={"Limpar"}
+                type="clean"
+                onPress={() => handleClean()}
+              />
+            </ContainerInputsdoubles>
+            <ContainerInputsdoubles>
+              <ButtonComponent
+                title={"Calcular"}
+                type="default"
+                onPress={handleSubmit(handleCalculate)}
+              />
+            </ContainerInputsdoubles>
           </ButtonContainer>
         </Content>
       </BackgroundContent>
