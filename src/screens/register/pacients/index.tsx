@@ -4,10 +4,10 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useNavigation } from "@react-navigation/native"
 import { useForm } from "react-hook-form"
 import * as Yup from "yup"
-import { ButtonComponent } from "../../../components/ButtonComponent"
-import { InputForm } from "../../../components/InputForm"
 import Logo2 from "../../../assets/Logo2.svg"
-import { SafeAreaView } from "react-native"
+import { ButtonComponent } from "../../../components/ButtonComponent"
+import { DropdownComponent } from "../../../components/DropDonwList"
+import { InputForm } from "../../../components/InputForm"
 import {
   BackgroundContent,
   ButtonContainer,
@@ -16,7 +16,6 @@ import {
   ContainerLogo,
   ContentRegister,
 } from "./styles"
-import { DropdownComponent } from "../../../components/DropDonwList"
 
 const data = [
   { label: "Masculino", value: "M" },
@@ -49,7 +48,6 @@ export function RegisterPatients() {
 
   console.log('🔥', sexo)
   return (
-    <SafeAreaView style={{ flex: 1 }}>
       <Container>
         <BackgroundContent>
           <ContainerLogo>
@@ -98,6 +96,5 @@ export function RegisterPatients() {
           </ButtonContainer>
         </BackgroundContent>
       </Container>
-    </SafeAreaView>
   )
 }

@@ -1,8 +1,8 @@
+import { StatusBar } from "react-native"
 import "react-native-gesture-handler"
-import { StatusBar } from "expo-status-bar"
-import { RoutersApp } from "./src/routes/app.routers"
 import { ThemeProvider } from "styled-components/native"
 import theme from "./src/global/styles/theme"
+import { RoutersApp } from "./src/routes/app.routers"
 
 export default function App() {
   return (

@@ -1,11 +1,13 @@
-import React, { PropsWithChildren } from "react"
-import { Container } from "./styles"
+import React from "react"
+import { Platform, SafeAreaView, StatusBar } from "react-native"
 import BackGround from "../../assets/bgImage.jpg"
+import { Container } from "./styles"
 
-export const BackgroundComponent = ({children}) => {
+
+export const BackgroundComponent = ({ children }) => {
   return (
     <Container source={BackGround} resizeMode="cover">
-      {children}
+      <SafeAreaView>{children}</SafeAreaView>
     </Container>
   )
 }

@@ -12,7 +12,7 @@ import { InputForm } from "../../../components/InputForm"
 import { ButtonComponent } from "../../../components/ButtonComponent"
 import { useForm } from "react-hook-form"
 import { useNavigation } from "@react-navigation/native"
-import { SafeAreaView } from "react-native-safe-area-context"
+
 
 export function RegisterNutritionists() {
   const { navigate } = useNavigation<any>()
@@ -44,7 +44,6 @@ export function RegisterNutritionists() {
     resolver: yupResolver(schema),
   })
   return (
-    <SafeAreaView style={{ flex: 1 }}>
       <Container>
         <BackgroundContent>
           <ContentRegister>
@@ -109,6 +108,5 @@ export function RegisterNutritionists() {
           </ButtonContainer>
         </BackgroundContent>
       </Container>
-    </SafeAreaView>
   )
 }
