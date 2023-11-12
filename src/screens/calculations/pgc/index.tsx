@@ -19,10 +19,15 @@ import { ButtonComponent } from "../../../components/ButtonComponent"
 import { Input } from "../../../components/Forms/Input"
 import { SexButton } from "../../../components/Forms/SexButton"
 import { Alert } from "react-native"
+import { ResultCalculationsComponent } from "../../../components/ResultCalculations"
+import { calcularGorduraCorporal } from "./functions"
 
 export function CalculationPgc() {
   const [sex, setSex] = useState("")
   const [isActive, setIsActive] = useState(null)
+  const [] = useState({
+     
+  })
 
   const schema = Yup.object().shape({
     idade: Yup.string().trim().required("Digite sua idade"),
@@ -37,7 +42,7 @@ export function CalculationPgc() {
     resolver: yupResolver(schema),
   })
   const handleCalculate = () => {
-    Alert.alert('Calculo Feito com sucesso!')
+    Alert.alert("Calculo Feito com sucesso!")
   }
 
   function handleSexButton(type: "M" | "F") {
@@ -45,9 +50,9 @@ export function CalculationPgc() {
   }
 
   function handleClean() {
-    setSex('')
+    setSex("")
     reset()
-    Alert.alert('Calculos Resetados')
+    Alert.alert("Calculos Resetados")
   }
 
   return (
@@ -55,6 +60,11 @@ export function CalculationPgc() {
       <BackgroundContent>
         <Content>
           <ContainerCalculaters>
+            <ResultCalculationsComponent
+              colorResult="Excelente"
+              percentageResult="24.23%"
+              tableResult="Bom 24 - 26%"
+            />
             <ContainerSex>
               <SexButton
                 isActive={sex === "M"}
@@ -134,7 +144,8 @@ export function CalculationPgc() {
               <ButtonComponent
                 title={"Calcular"}
                 type="default"
-                onPress={handleSubmit(handleCalculate)}
+                // onPress={handleSubmit(handleCalculate)}
+                onPress={() => calcularGorduraCorporal}
               />
             </ContainerInputsdoubles>
           </ButtonContainer>
