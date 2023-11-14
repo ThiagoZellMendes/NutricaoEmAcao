@@ -1,5 +1,16 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
+import { yupResolver } from "@hookform/resolvers/yup"
+import { Form, UseFormHandleSubmit, useForm } from "react-hook-form"
+import { Alert } from "react-native"
+import uuid from "react-native-uuid"
+import * as Yup from "yup"
+import { ButtonComponent } from "../../../components/ButtonComponent"
+import { GenreButton } from "../../../components/Forms/GenreButton"
+import { InputCalculations } from "../../../components/Forms/InputCalculations"
+import { ResultCalculationsComponent } from "../../../components/ResultCalculations"
+import { calcularGorduraCorporal } from "./functions"
+import { FormDataCalc, ResultadoGordura, Sexo } from "./props"
 import {
   BackgroundContent,
   ButtonContainer,
@@ -7,30 +18,23 @@ import {
   ContainerAge,
   ContainerCalculaters,
   ContainerInputsdoubles,
-  ContainerSex,
   ContainerSkinFolds,
+  Containergenre,
   Content,
 } from "./styles"
-import { InputCalculations } from "../../../components/Forms/InputCalculations"
-import * as Yup from "yup"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { ButtonComponent } from "../../../components/ButtonComponent"
-import { Input } from "../../../components/Forms/Input"
-import { SexButton } from "../../../components/Forms/SexButton"
-import { Alert } from "react-native"
-import { ResultCalculationsComponent } from "../../../components/ResultCalculations"
-import { calcularGorduraCorporal } from "./functions"
 
 export function CalculationPgc() {
-  const [sex, setSex] = useState("")
-  const [isActive, setIsActive] = useState(null)
-  const [] = useState({
-     
-  })
+  const [genre, setGenre] = useState<Sexo>()
+  const [resultCalc, setResultCalc] = useState<ResultadoGordura>(
+    {} as ResultadoGordura
+  )
 
   const schema = Yup.object().shape({
-    idade: Yup.string().trim().required("Digite sua idade"),
+    idade: Yup.number().required("Digite sua idade"),
+    triceps: Yup.number().required("Digite triceps"),
+    biceps: Yup.number().required("Digite biceps"),
+    subescapular: Yup.number().required("Digite subescapular"),
+    suprailiaca: Yup.number().required("Digite suprailiaca"),
   })
 
   const {
@@ -40,18 +44,59 @@ export function CalculationPgc() {
     reset,
   } = useForm({
     resolver: yupResolver(schema),
+    // defaultValues: {
+    //   idade: 4,
+    //   triceps: 4,
+    //   biceps: 4,
+    //   subescapular: 4,
+    //   suprailiaca: 4,
+    // },
   })
-  const handleCalculate = () => {
-    Alert.alert("Calculo Feito com sucesso!")
+
+  const handleCalculate = (form: FormDataCalc) => {
+    console.log("jack")
+    if (!genre) return Alert.alert("Selecione um gênero")
+
+    const newCalculation = {
+      id: String(uuid.v4()),
+      idade: form.idade,
+      sexo: genre,
+      dobras: {
+        triceps: form.triceps,
+        biceps: form.biceps,
+        subescapular: form.subescapular,
+        suprailiaca: form.suprailiaca,
+      },
+    }
+
+    try {
+      const result = calcularGorduraCorporal(
+        genre,
+        form.idade,
+        newCalculation.dobras
+      )
+      setResultCalc(result)
+      if (!result) {
+        reset()
+      }
+
+      console.log("🔥", result)
+      console.log("✨", newCalculation)
+
+      Alert.alert("Calculo Feito com sucesso!")
+    } catch (err) {
+      console.log(err)
+    }
   }
 
-  function handleSexButton(type: "M" | "F") {
-    setSex(type)
+  function handlegenreButton(type: Sexo) {
+    setGenre(type)
   }
 
   function handleClean() {
-    setSex("")
+    setGenre(null)
     reset()
+    setResultCalc({ categoria: "", percentual: 0 })
     Alert.alert("Calculos Resetados")
   }
 
@@ -61,22 +106,26 @@ export function CalculationPgc() {
         <Content>
           <ContainerCalculaters>
             <ResultCalculationsComponent
-              colorResult="Excelente"
-              percentageResult="24.23%"
-              tableResult="Bom 24 - 26%"
+              colorResult={resultCalc.categoria as any}
+              percentageResult={
+                resultCalc.percentual
+                  ? resultCalc.percentual?.toFixed(2) + "%"
+                  : "Não Calculado"
+              }
+              tableResult={resultCalc.categoria}
             />
-            <ContainerSex>
-              <SexButton
-                isActive={sex === "M"}
+            <Containergenre>
+              <GenreButton
+                isActive={genre === "M"}
                 type="M"
-                onPress={() => handleSexButton("M")}
+                onPress={() => handlegenreButton(Sexo.masculino)}
               />
-              <SexButton
-                isActive={sex === "F"}
+              <GenreButton
+                isActive={genre === "F"}
                 type="F"
-                onPress={() => handleSexButton("F")}
+                onPress={() => handlegenreButton(Sexo.feminino)}
               />
-            </ContainerSex>
+            </Containergenre>
             <ContainerAge>
               <InputCalculations
                 name="idade"
@@ -95,7 +144,7 @@ export function CalculationPgc() {
                   isActive={true}
                   control={control}
                   placeholder="0"
-                  errorInput={errors.idade && errors.idade.message}
+                  errorInput={errors.triceps && errors.triceps.message}
                 />
               </ContainerInputsdoubles>
               <ContainerInputsdoubles>
@@ -105,7 +154,7 @@ export function CalculationPgc() {
                   isActive={true}
                   control={control}
                   placeholder="0"
-                  errorInput={errors.idade && errors.idade.message}
+                  errorInput={errors.biceps && errors.biceps.message}
                 />
               </ContainerInputsdoubles>
             </ContainerSkinFolds>
@@ -117,17 +166,19 @@ export function CalculationPgc() {
                   isActive={true}
                   control={control}
                   placeholder="0"
-                  errorInput={errors.idade && errors.idade.message}
+                  errorInput={
+                    errors.subescapular && errors.subescapular.message
+                  }
                 />
               </ContainerInputsdoubles>
               <ContainerInputsdoubles>
                 <InputCalculations
-                  name="SupraIliaca"
+                  name="suprailiaca"
                   TitleCalculate="Supra Íliaca"
                   isActive={true}
                   control={control}
                   placeholder="0"
-                  errorInput={errors.idade && errors.idade.message}
+                  errorInput={errors.suprailiaca && errors.suprailiaca.message}
                 />
               </ContainerInputsdoubles>
             </ContainerSkinFolds>
@@ -144,8 +195,8 @@ export function CalculationPgc() {
               <ButtonComponent
                 title={"Calcular"}
                 type="default"
-                // onPress={handleSubmit(handleCalculate)}
-                onPress={() => calcularGorduraCorporal}
+                onPress={handleSubmit(handleCalculate)}
+                // onPress={() => console.log("Calcular")}
               />
             </ContainerInputsdoubles>
           </ButtonContainer>

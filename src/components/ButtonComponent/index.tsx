@@ -1,22 +1,23 @@
 import React from "react"
 
-import { SocialButtonProps } from "./props"
-import { Button, Icon, Text } from "./styles"
+import { ButtonComponentProps } from "./props"
+import { Button, Container, Icon, Text } from "./styles"
 
 export function ButtonComponent({
   title,
   nameIcon,
   onPress,
   type,
-}: SocialButtonProps) {
+  ...rest
+}: ButtonComponentProps) {
   return (
     // <ShadownButton>
-    //   <>
-        <Button onPress={onPress} type={type}>
-          <Text>{title}</Text>
-          <Icon name={nameIcon} />
-        </Button>
-    //   </>
+    <Container  type={type}>
+      <Button onPress={onPress} {...rest}>
+        <Text>{title}</Text>
+        <Icon name={nameIcon} />
+      </Button>
+    </Container>
     // </ShadownButton>
   )
 }

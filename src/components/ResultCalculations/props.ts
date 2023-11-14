@@ -1,9 +1,25 @@
 export interface PropsResultComponent {
-  colorResult: "Essencial" | "Excelente" | "Bom" | "Obesidade"
+  colorResult:
+    | "Muito Baixo"
+    | "Excelente"
+    | "Muito Bom"
+    | "Bom"
+    | "Adequado"
+    | "Moderadamente Alto"
+    | "Alto"
+    | "Muito Alto"
   percentageResult: string
   tableResult: string
 }
 
 export interface PropsResultComponentStyle {
-  colorResult: "Essencial" | "Excelente" | "Bom" | "Obesidade"
+  colorResult:
+    | "Muito Baixo"
+    | "Excelente"
+    | "Muito Bom"
+    | "Bom"
+    | "Adequado"
+    | "Moderadamente Alto"
+    | "Alto"
+    | "Muito Alto"
 }

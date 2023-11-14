@@ -1,8 +1,12 @@
-import { RectButtonProps } from "react-native-gesture-handler";
+import { RectButtonProps } from "react-native-gesture-handler"
 
-export interface SocialButtonProps extends RectButtonProps {
-  title: string;
-  nameIcon?: string;
-  onPress: () => void;
-  type?: string;
+export interface ButtonComponentProps extends RectButtonProps {
+  title: string
+  nameIcon?: string
+  onPress: () => void
+  type: "clean" | "default"
+}
+
+export interface ButtonComponentPropsStyles extends RectButtonProps{
+  type: "clean" | "default"
 }

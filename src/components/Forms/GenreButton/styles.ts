@@ -25,13 +25,13 @@ export const Container = styled.View<ContainerProps>`
     isActive &&
     type === "M" &&
     css`
-      background-color: ${({ theme }) => theme.colors.sexMan};
+      background-color: ${({ theme }) => theme.colors.genreMan};
     `}
   ${({ isActive, type }) =>
     isActive &&
     type === "F" &&
     css`
-      background-color: ${({ theme }) => theme.colors.sexWoman};
+      background-color: ${({ theme }) => theme.colors.genreWoman};
     `}
 `;
 

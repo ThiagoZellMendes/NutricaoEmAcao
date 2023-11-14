@@ -23,7 +23,7 @@ const data = [
 ] as any
 
 export function RegisterPatients() {
-  const [sexo, setSexo] = useState()
+  const [genre, setGenre] = useState()
   const { navigate } = useNavigation<any>()
 
   const schema = Yup.object().shape({
@@ -46,7 +46,7 @@ export function RegisterPatients() {
     resolver: yupResolver(schema),
   })
 
-  console.log('🔥', sexo)
+  console.log('🔥', genre)
   return (
       <Container>
         <BackgroundContent>
@@ -81,14 +81,15 @@ export function RegisterPatients() {
             <ContainerForm>
               <DropdownComponent 
                 data={data} 
-                placeholder="Escolha o sexo do paciente"
-                setValue={setSexo}
-                value={sexo}
+                placeholder="Escolha o genre do paciente"
+                setValue={setGenre}
+                value={genre}
                 />
             </ContainerForm>
           </ContentRegister>
           <ButtonContainer>
             <ButtonComponent
+              type="default"
               title={"Cadastar"}
               nameIcon="chevron-right"
               onPress={handleSubmit(handleRegister)}

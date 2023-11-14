@@ -1,9 +1,6 @@
-import { Feather } from "@expo/vector-icons"
-import { RectButton } from "react-native-gesture-handler"
-import { RFValue } from "react-native-responsive-fontsize"
-import styled, { css } from "styled-components/native"
-import { InputForm } from "../../InputForm"
 import { TextInput } from "react-native"
+import { RFValue } from "react-native-responsive-fontsize"
+import styled from "styled-components/native"
 
 interface ContainerProps {
   isActive: boolean

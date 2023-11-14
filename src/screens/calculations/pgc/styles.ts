@@ -17,7 +17,7 @@ export const Content = styled.View`
   justify-content: space-between;
   margin-bottom: ${() => (Platform.OS === "android" ? "20px" : "30px")};
 `
-export const ContainerSex = styled.View`
+export const Containergenre = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: ${RFValue(30)}px;

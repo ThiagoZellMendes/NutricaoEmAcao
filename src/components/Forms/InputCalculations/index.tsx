@@ -26,7 +26,7 @@ export function InputCalculations({
         <TextCalculater>{TitleCalculate}:</TextCalculater>
         <Controller
           control={control}
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange, value, onBlur} }) => (
             <Input
               onChangeText={onChange}
               value={value}
