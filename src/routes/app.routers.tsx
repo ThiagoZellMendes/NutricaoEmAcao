@@ -4,88 +4,88 @@ import React from "react"
 import { SignIn } from "../screens/signIn"
 import { RegisterNutritionists } from "../screens/register/nutritionists"
 import { RegisterPatients } from "../screens/register/pacients"
-import { ListCalculate } from "../screens/listCalculate"
 import { ListPatients } from "../screens/listPatients"
 import { CalculationImc } from "../screens/calculations/imc"
 import { CalculationPgc } from "../screens/calculations/pgc"
+import { ListCalculate } from "../screens/listCalculate"
 
 const { Screen, Navigator } = createNativeStackNavigator()
 
 export function RoutersApp() {
   return (
     <NavigationContainer>
-      <Navigator initialRouteName="CalculationPgc">
+      <Navigator initialRouteName="SignIn">
         <Screen
           name="SignIn"
           component={SignIn}
-          options={{ 
-            headerShown: false, 
+          options={{
+            headerShown: false,
           }}
-          />
+        />
         <Screen
           name="RegisterNutritionists"
           component={RegisterNutritionists}
-          options={{ 
+          options={{
             headerBackTitleVisible: false,
             headerTintColor: "#65717B",
-            headerTitle: 'Registro Nutricionista',
+            headerTitle: "Registro Nutricionista",
             headerTransparent: true,
-            headerStyle: {backgroundColor: "#F0F2F5"},
+            headerStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
         <Screen
           name="RegisterPatients"
           component={RegisterPatients}
-          options={{ 
+          options={{
             headerBackTitleVisible: false,
             headerTintColor: "#65717B",
-            headerTitle: 'Registro Paciente',
+            headerTitle: "Registro Paciente",
             headerTransparent: true,
-            headerStyle: {backgroundColor: "#FFFFFF"},
+            headerStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
         <Screen
           name="ListCalculate"
           component={ListCalculate}
-          options={{ 
+          options={{
             headerBackTitleVisible: false,
             headerTintColor: "#65717B",
-            headerTitle: ' ',
+            headerTitle: " ",
             headerTransparent: true,
-            headerStyle: {backgroundColor: "#FFFFFF"},
+            headerStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
         <Screen
           name="ListPatients"
           component={ListPatients}
-          options={{ 
+          options={{
             headerBackTitleVisible: false,
             headerTintColor: "#65717B",
-            headerTitle: ' ',
+            headerTitle: " ",
             headerTransparent: true,
-            headerStyle: {backgroundColor: "#FFFFFF"},
+            headerStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
         <Screen
           name="CalculationImc"
           component={CalculationImc}
-          options={{ 
+          options={{
             headerBackTitleVisible: false,
             headerTintColor: "#65717B",
-            headerTitle: 'Índice de massa Corporal',
+            headerTitle: "Índice de massa Corporal",
             headerTransparent: true,
-            headerStyle: {backgroundColor: "#FFFFFF"},
+            headerStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
         <Screen
           name="CalculationPgc"
           component={CalculationPgc}
-          options={{ 
+          options={{
             headerBackTitleVisible: false,
             headerTintColor: "#65717B",
-            headerTitle: 'Percentual de Gordura Corporal',
+            headerTitle: "Percentual de Gordura Corporal",
             headerTransparent: true,
-            headerStyle: {backgroundColor: "#FFFFFF"},
+            headerStyle: { backgroundColor: "#FFFFFF" },
           }}
         />
       </Navigator>

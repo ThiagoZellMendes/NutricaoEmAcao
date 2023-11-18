@@ -51,6 +51,7 @@ useEffect(() => {
               keyExtractor={(item) => item.key}
               renderItem={({ item }) => (
                 <ButtonComponent
+                  type='default'
                   title={item.name}
                   nameIcon="chevron-right"
                   onPress={() => console.log("teste 1")}

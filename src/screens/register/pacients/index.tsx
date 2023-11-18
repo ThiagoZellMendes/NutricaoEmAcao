@@ -14,6 +14,7 @@ import {
   Container,
   ContainerForm,
   ContainerLogo,
+  Content,
   ContentRegister,
 } from "./styles"
 
@@ -33,8 +34,7 @@ export function RegisterPatients() {
   })
 
   const handleRegister = () => {
-    navigate("SignIn")
-    console.log("Nutricionista cadastrado com sucesso")
+    navigate("ListCalculate")
   }
 
   const {
@@ -46,16 +46,18 @@ export function RegisterPatients() {
     resolver: yupResolver(schema),
   })
 
-  console.log('🔥', genre)
+  console.log("🔥", genre)
   return (
-      <Container>
-        <BackgroundContent>
+    <Container>
+      <BackgroundContent>
+        <Content showsVerticalScrollIndicator={false}>
           <ContainerLogo>
             <Logo2 />
           </ContainerLogo>
           <ContentRegister>
             <ContainerForm>
               <InputForm
+                type="cpf"
                 name="cpf"
                 control={control}
                 placeholder={"Digite seu cpf"}
@@ -65,6 +67,10 @@ export function RegisterPatients() {
             <ContainerForm>
               <InputForm
                 name="name"
+                type="custom"
+                options={{
+                  mask: "*******************************************",
+                }}
                 control={control}
                 placeholder={"Digite o nome completo do paciente"}
                 errorInput={errors.name && errors.name.message}
@@ -73,18 +79,22 @@ export function RegisterPatients() {
             <ContainerForm>
               <InputForm
                 name="idade"
+                type="custom"
+                options={{
+                  mask: "999",
+                }}
                 control={control}
                 placeholder={"Digite o a idade do paciente"}
                 errorInput={errors.idade && errors.idade.message}
               />
             </ContainerForm>
             <ContainerForm>
-              <DropdownComponent 
-                data={data} 
-                placeholder="Escolha o genre do paciente"
+              <DropdownComponent
+                data={data}
+                placeholder="Escolha o sexo do paciente"
                 setValue={setGenre}
                 value={genre}
-                />
+              />
             </ContainerForm>
           </ContentRegister>
           <ButtonContainer>
@@ -95,7 +105,8 @@ export function RegisterPatients() {
               onPress={handleSubmit(handleRegister)}
             />
           </ButtonContainer>
-        </BackgroundContent>
-      </Container>
+        </Content>
+      </BackgroundContent>
+    </Container>
   )
 }

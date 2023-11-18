@@ -23,9 +23,9 @@ export interface ResultadoGordura {
 
 export interface FormDataCalc {
   sexo: Sexo
-  idade: number
-  triceps: number
-  biceps: number
-  subescapular: number
-  suprailiaca: number
+  idade: string
+  triceps: string
+  biceps: string
+  subescapular: string
+  suprailiaca: string
 }

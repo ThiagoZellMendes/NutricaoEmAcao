@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useState } from "react"
 
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Form, UseFormHandleSubmit, useForm } from "react-hook-form"
-import { Alert } from "react-native"
+import { useForm } from "react-hook-form"
+import { Alert, Text } from "react-native"
 import uuid from "react-native-uuid"
 import * as Yup from "yup"
 import { ButtonComponent } from "../../../components/ButtonComponent"
@@ -30,11 +30,16 @@ export function CalculationPgc() {
   )
 
   const schema = Yup.object().shape({
-    idade: Yup.number().required("Digite sua idade"),
-    triceps: Yup.number().required("Digite triceps"),
-    biceps: Yup.number().required("Digite biceps"),
-    subescapular: Yup.number().required("Digite subescapular"),
-    suprailiaca: Yup.number().required("Digite suprailiaca"),
+    idade: Yup.string()
+      .required("Digite sua idade")
+      .min(1)
+      .max(3)
+      .required()
+      .matches(/^[0-9]+$/, "Must be only digits"),
+    triceps: Yup.string().required("Digite triceps").min(1),
+    biceps: Yup.string().required("Digite biceps").min(1),
+    subescapular: Yup.string().required("Digite subescapular").min(1),
+    suprailiaca: Yup.string().required("Digite suprailiaca").min(1),
   })
 
   const {
@@ -44,17 +49,9 @@ export function CalculationPgc() {
     reset,
   } = useForm({
     resolver: yupResolver(schema),
-    // defaultValues: {
-    //   idade: 4,
-    //   triceps: 4,
-    //   biceps: 4,
-    //   subescapular: 4,
-    //   suprailiaca: 4,
-    // },
   })
 
   const handleCalculate = (form: FormDataCalc) => {
-    console.log("jack")
     if (!genre) return Alert.alert("Selecione um gênero")
 
     const newCalculation = {
@@ -62,17 +59,17 @@ export function CalculationPgc() {
       idade: form.idade,
       sexo: genre,
       dobras: {
-        triceps: form.triceps,
-        biceps: form.biceps,
-        subescapular: form.subescapular,
-        suprailiaca: form.suprailiaca,
+        triceps: parseFloat(form.triceps),
+        biceps: parseFloat(form.biceps),
+        subescapular: parseFloat(form.subescapular),
+        suprailiaca: parseFloat(form.suprailiaca),
       },
     }
 
     try {
       const result = calcularGorduraCorporal(
         genre,
-        form.idade,
+        parseInt(form.idade),
         newCalculation.dobras
       )
       setResultCalc(result)
@@ -108,9 +105,20 @@ export function CalculationPgc() {
             <ResultCalculationsComponent
               colorResult={resultCalc.categoria as any}
               percentageResult={
-                resultCalc.percentual
-                  ? resultCalc.percentual?.toFixed(2) + "%"
-                  : "Não Calculado"
+                resultCalc.percentual ? (
+                  resultCalc.percentual?.toFixed(2) + "%"
+                ) : (
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: "red",
+                      alignSelf: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {`Paciente não possui Calculos`}
+                  </Text>
+                )
               }
               tableResult={resultCalc.categoria}
             />
@@ -129,6 +137,10 @@ export function CalculationPgc() {
             <ContainerAge>
               <InputCalculations
                 name="idade"
+                type="custom"
+                  options={{
+                    mask: "999",
+                  }}
                 TitleCalculate="Idade"
                 isActive={true}
                 control={control}
@@ -140,6 +152,10 @@ export function CalculationPgc() {
               <ContainerInputsdoubles>
                 <InputCalculations
                   name="triceps"
+                  type="custom"
+                  options={{
+                    mask: "9.999,99",
+                  }}
                   TitleCalculate="Tríceps"
                   isActive={true}
                   control={control}
@@ -150,6 +166,10 @@ export function CalculationPgc() {
               <ContainerInputsdoubles>
                 <InputCalculations
                   name="biceps"
+                  type="custom"
+                  options={{
+                    mask: "9.999,99",
+                  }}
                   TitleCalculate="Bíceps"
                   isActive={true}
                   control={control}
@@ -162,6 +182,10 @@ export function CalculationPgc() {
               <ContainerInputsdoubles>
                 <InputCalculations
                   name="subescapular"
+                  type="custom"
+                  options={{
+                    mask: "9.999,99",
+                  }}
                   TitleCalculate="subescapular"
                   isActive={true}
                   control={control}
@@ -174,6 +198,10 @@ export function CalculationPgc() {
               <ContainerInputsdoubles>
                 <InputCalculations
                   name="suprailiaca"
+                  type="custom"
+                  options={{
+                    mask: "9.999,99",
+                  }}
                   TitleCalculate="Supra Íliaca"
                   isActive={true}
                   control={control}
@@ -196,7 +224,6 @@ export function CalculationPgc() {
                 title={"Calcular"}
                 type="default"
                 onPress={handleSubmit(handleCalculate)}
-                // onPress={() => console.log("Calcular")}
               />
             </ContainerInputsdoubles>
           </ButtonContainer>

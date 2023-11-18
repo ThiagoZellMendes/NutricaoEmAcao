@@ -1,8 +1,10 @@
-import styled from "styled-components/native";
+import { TextInputMask } from "react-native-masked-text";
 import { RFValue } from "react-native-responsive-fontsize";
-import { TextInput } from 'react-native';
+import styled from "styled-components/native";
 
-export const Container = styled(TextInput)`
+
+
+export const Container = styled(TextInputMask)`
   width:100%;
   padding:  15px 16px;
   font-size: ${RFValue(14)}px;

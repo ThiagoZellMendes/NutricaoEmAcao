@@ -1,4 +1,9 @@
+import { ReactElement } from "react";
+
+
 export interface PropsResultComponent {
+  percentageResult: string | ReactElement; 
+  tableResult: string
   colorResult:
     | "Muito Baixo"
     | "Excelente"
@@ -8,8 +13,14 @@ export interface PropsResultComponent {
     | "Moderadamente Alto"
     | "Alto"
     | "Muito Alto"
-  percentageResult: string
-  tableResult: string
+    | "Muito abaixo do peso"
+    | "Abaixo do peso"
+    | "Magreza moderada"
+    | "Peso normal"
+    | "Acima do peso"
+    | "Obesidade Grau I"
+    | "Obesidade Grau II"
+    | "Obesidade Grau III"
 }
 
 export interface PropsResultComponentStyle {
@@ -22,4 +33,12 @@ export interface PropsResultComponentStyle {
     | "Moderadamente Alto"
     | "Alto"
     | "Muito Alto"
+    | "Muito abaixo do peso"
+    | "Abaixo do peso"
+    | "Magreza moderada"
+    | "Peso normal"
+    | "Acima do peso"
+    | "Obesidade Grau I"
+    | "Obesidade Grau II"
+    | "Obesidade Grau III"
 }

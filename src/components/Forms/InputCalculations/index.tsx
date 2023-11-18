@@ -1,9 +1,9 @@
 import React from "react"
 import { Container, Content, ErrorInput, Input, TextCalculater } from "./styles"
 import { Control, Controller } from "react-hook-form"
-import { Text, TextInputProps } from "react-native"
+import { TextInputMaskProps } from "react-native-masked-text"
 
-interface Props extends TextInputProps {
+interface Props extends TextInputMaskProps {
   name: string
   TitleCalculate: string
   isActive?: boolean

@@ -6,12 +6,14 @@ import {
   Container,
   ContainerLogo,
   ContainerTitle,
-  Title
+  Title,
 } from "./styles"
 import { ButtonComponent } from "../../components/ButtonComponent"
 import Logo2 from "../../assets/Logo2.svg"
+import { useNavigation } from "@react-navigation/native"
 
 export function ListCalculate() {
+  const navigation = useNavigation<any>()
   return (
     <Container>
       <BackgroundContent>
@@ -23,16 +25,18 @@ export function ListCalculate() {
         </ContainerTitle>
         <ButtonContainer>
           <ButtonComponent
+            type="default"
             title={"Indice de Massa \n Corporal"}
             nameIcon="chevron-right"
-            onPress={() => console.log("teste 1")}
+            onPress={() => navigation.navigate("CalculationImc")}
           />
         </ButtonContainer>
         <ButtonContainer>
           <ButtonComponent
+            type="default"
             title={"Percentual de \n Gordura Corporal"}
             nameIcon="chevron-right"
-            onPress={() => console.log("teste 2")}
+            onPress={() => navigation.navigate("CalculationPgc")}
           />
         </ButtonContainer>
       </BackgroundContent>

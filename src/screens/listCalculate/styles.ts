@@ -9,13 +9,12 @@ export const Container = styled(GestureHandlerRootView)`
 `
 
 export const BackgroundContent = styled(BackgroundComponent)`
-  justify-content: space-between;
 `
 
 export const ContainerTitle = styled(View)`
   width: 100%;
-  align-items: center;
-  margin: ${RFValue(16)}px;
+  align-items: flex-start;
+  margin: ${RFValue(20)}px;
 `
 
 export const Title = styled(Text)`
@@ -24,9 +23,12 @@ export const Title = styled(Text)`
   color: ${({ theme }) => theme.colors.title_dark };
 `
 
-export const ContainerLogo = styled.View``
+export const ContainerLogo = styled.View`
+  align-self: center;
+`
 
 export const ButtonContainer = styled.View`
   width: 100%;
-  padding: 10px ${RFValue(20)}px;
+  padding: ${RFValue(10)}px ${RFValue(20)}px ;
+
 `

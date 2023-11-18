@@ -30,7 +30,7 @@ export const ContainerResult = styled.View<PropsResultComponentStyle>`
   justify-content: center;
 
   ${({ colorResult }) =>
-    colorResult === "Muito Baixo" &&
+    (colorResult === "Muito Baixo" || colorResult === "Muito abaixo do peso") &&
     css`
       background-color: ${({ theme }) => theme.colors.MuitoBaixo};
       border-radius: 4px;
@@ -38,7 +38,7 @@ export const ContainerResult = styled.View<PropsResultComponentStyle>`
       border-color: ${({ theme }) => theme.colors.title};
     `}
   ${({ colorResult }) =>
-    colorResult === "Excelente" &&
+    (colorResult === "Excelente" || colorResult === "Peso normal") &&
     css`
       background-color: ${({ theme }) => theme.colors.Excelente};
       border-radius: 4px;
@@ -46,23 +46,24 @@ export const ContainerResult = styled.View<PropsResultComponentStyle>`
       border-color: ${({ theme }) => theme.colors.title};
     `}
   ${({ colorResult }) =>
-    colorResult === "Muito Bom" &&
+    (colorResult === "Muito Bom" || colorResult === "Abaixo do peso") &&
     css`
       background-color: ${({ theme }) => theme.colors.MuitoBom};
       border-radius: 4px;
       border: solid 2px;
       border-color: ${({ theme }) => theme.colors.title};
     `}
-  ${({ colorResult }) =>
-    colorResult === "Bom" &&
+    ${({ colorResult }) =>
+    (colorResult === "Bom" ||  colorResult === "Magreza moderada") &&
     css`
       background-color: ${({ theme }) => theme.colors.Bom};
       border-radius: 4px;
       border: solid 2px;
       border-color: ${({ theme }) => theme.colors.title};
     `}
+
   ${({ colorResult }) =>
-    colorResult === "Adequado" &&
+    (colorResult === "Adequado" || colorResult === "Acima do peso") &&
     css`
       background-color: ${({ theme }) => theme.colors.Adequado};
       border-radius: 4px;
@@ -70,7 +71,7 @@ export const ContainerResult = styled.View<PropsResultComponentStyle>`
       border-color: ${({ theme }) => theme.colors.title};
     `}
   ${({ colorResult }) =>
-    colorResult === "Moderadamente Alto" &&
+    (colorResult === "Moderadamente Alto" || colorResult === "Obesidade Grau I") &&
     css`
       background-color: ${({ theme }) => theme.colors.ModeradamenteAlto};
       border-radius: 4px;
@@ -78,7 +79,7 @@ export const ContainerResult = styled.View<PropsResultComponentStyle>`
       border-color: ${({ theme }) => theme.colors.title};
     `}
   ${({ colorResult }) =>
-    colorResult === "Alto" &&
+    (colorResult === "Alto" || colorResult === "Obesidade Grau II") &&
     css`
       background-color: ${({ theme }) => theme.colors.Alto};
       border-radius: 4px;
@@ -86,7 +87,7 @@ export const ContainerResult = styled.View<PropsResultComponentStyle>`
       border-color: ${({ theme }) => theme.colors.title};
     `}
   ${({ colorResult }) =>
-    colorResult === "Muito Alto" &&
+    (colorResult === "Muito Alto" || colorResult === "Obesidade Grau III") &&
     css`
       background-color: ${({ theme }) => theme.colors.MuitoAlto};
       border-radius: 4px;

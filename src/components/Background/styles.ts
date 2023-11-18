@@ -3,14 +3,19 @@ import styled from "styled-components/native"
 
 export const isHasNotch = () => {
   if (Platform.OS === "android") {
-    return (StatusBar.currentHeight && StatusBar.currentHeight + 22) || 10
+    return (StatusBar.currentHeight && StatusBar.currentHeight + 10) || 10
   }
-
   return 10
 }
 
-export const Container = styled(ImageBackground)`
+export const Container = styled.View`
   flex: 1;
+  width: 100%;
+  align-self: center;
   align-items: center;
-  margin-top: ${isHasNotch()}px;
-`
+  padding-top: ${isHasNotch()}px;
+  `
+export const Bg = styled(ImageBackground)`
+  flex: 1;
+  width: 100%;
+`;

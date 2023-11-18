@@ -8,27 +8,27 @@ export const Container = styled(GestureHandlerRootView)`
   flex: 1;
 `
 
-export const BackgroundContent = styled(BackgroundComponent)`
-  justify-content: space-between;
+export const BackgroundContent = styled(BackgroundComponent)``
+
+export const Content = styled.ScrollView`
+  margin: 0 ${RFValue(20)}px;
 `
 
 export const ContainerLogo = styled.View`
-`;
+  align-self: center;
+`
 
-export const ContentRegister = styled(View)`
-  flex: 1;
+export const ContentRegister = styled.View`
   width: 100%;
 `
 
-export const ContainerForm = styled(View)`
-  padding: 0px ${RFValue(20)}px 0px ${RFValue(20)}px;
+export const ContainerForm = styled.View`
+  width: 100%;
   margin-bottom: ${RFValue(16)}px;
 `
 
 export const ButtonContainer = styled.View`
+  margin-top: ${RFValue(90)}px;
   width: 100%;
-  padding: 0px ${RFValue(20)}px;
-  margin-bottom: ${() => Platform.OS === 'android' ? '16px' : '0px'};
+  /* margin-bottom: ${() => (Platform.OS === "android" ? "16px" : "0px")}; */
 `
-
-

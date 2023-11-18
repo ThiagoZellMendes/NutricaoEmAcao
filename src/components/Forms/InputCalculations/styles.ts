@@ -1,4 +1,5 @@
 import { TextInput } from "react-native"
+import { TextInputMask } from "react-native-masked-text"
 import { RFValue } from "react-native-responsive-fontsize"
 import styled from "styled-components/native"
 
@@ -23,7 +24,7 @@ export const Title = styled.Text`
   font-size: ${RFValue(14)}px;
 `
 
-export const Input = styled(TextInput)`
+export const Input = styled(TextInputMask)`
   width: 100%;
   height: 100%;
   font-size: ${RFValue(16)}px;

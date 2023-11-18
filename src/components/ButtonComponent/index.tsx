@@ -11,13 +11,12 @@ export function ButtonComponent({
   ...rest
 }: ButtonComponentProps) {
   return (
-    // <ShadownButton>
+
     <Container  type={type}>
       <Button onPress={onPress} {...rest}>
         <Text>{title}</Text>
         <Icon name={nameIcon} />
       </Button>
     </Container>
-    // </ShadownButton>
   )
 }

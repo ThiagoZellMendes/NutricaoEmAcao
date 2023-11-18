@@ -1,12 +1,11 @@
-import React from "react";
-import { TextInputProps } from "react-native";
+import React from "react"
+import { TextInputProps } from "react-native"
 
-import { Container } from './styles'
+import { Container } from "./styles"
+import { TextInputMaskProps } from "react-native-masked-text"
 
-type Props = TextInputProps;
+type Props = TextInputMaskProps
 
-export function Input({...rest}: Props){
-  return (
-    <Container {...rest}/>
-  )
+export function Input({ ...rest }: Props) {
+  return <Container {...rest} />
 }

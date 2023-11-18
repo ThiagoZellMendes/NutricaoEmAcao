@@ -1,22 +1,22 @@
 import React from "react"
 
-import { BackgroundComponent } from "../../components/Background"
-import { InputForm } from "../../components/InputForm"
-import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useNavigation } from "@react-navigation/native"
 import { useForm } from "react-hook-form"
+import * as Yup from "yup"
 import Logo2 from "../../assets/Logo2.svg"
 import { ButtonComponent } from "../../components/ButtonComponent"
-import { useNavigation } from "@react-navigation/native"
+import { InputForm } from "../../components/InputForm"
 
 import {
+  BackgroundContent,
+  ButtonContainer,
   Container,
   ContainerForm,
-  ContainerLogo,
-  ButtonContainer,
   ContainerLink,
+  ContainerLogo,
+  Content,
   TextLink,
-  BackgroundContent
 } from "./styles"
 
 export function SignIn() {
@@ -38,40 +38,48 @@ export function SignIn() {
   return (
     <Container>
       <BackgroundContent>
-        <ContainerLogo>
-          <Logo2 />
-        </ContainerLogo>
-        <ContainerForm>
-          <InputForm
-            name="cpf"
-            control={control}
-            placeholder={"Digite seu cpf"}
-            errorInput={errors.cpf && errors.cpf.message}
-          />
-        </ContainerForm>
-        <ContainerForm>
-          <InputForm
-            name="senha"
-            control={control}
-            placeholder={"Digite sua senha"}
-            errorInput={errors.senha && errors.senha.message}
-          />
-        </ContainerForm>
-        <ButtonContainer>
-          <ButtonComponent
-            title={"Acessar"}
-            nameIcon="chevron-right"
-            onPress={() => navigation.navigate("RegisterPatients")}
-          />
-        </ButtonContainer>
-        <ContainerLink
-          onPress={() => navigation.navigate("RegisterNutritionists")}
-        >
-          <TextLink>Efetuar Cadastro</TextLink>
-        </ContainerLink>
-        <ContainerLink onPress={() => console.log("Press 2")}>
-          <TextLink>Esqueceu a senha?</TextLink>
-        </ContainerLink>
+        <Content>
+          <ContainerLogo>
+            <Logo2 />
+          </ContainerLogo>
+          <ContainerForm>
+            <InputForm
+              name="cpf"
+              type="cpf"
+              control={control}
+              placeholder={"Digite seu cpf"}
+              errorInput={errors.cpf && errors.cpf.message}
+            />
+          </ContainerForm>
+          <ContainerForm>
+            <InputForm
+              type="custom"
+              options={{
+                mask: "*",
+              }}
+              name="senha"
+              control={control}
+              placeholder={"Digite sua senha"}
+              errorInput={errors.senha && errors.senha.message}
+            />
+          </ContainerForm>
+          <ButtonContainer>
+            <ButtonComponent
+              type="default"
+              title={"Acessar"}
+              nameIcon="chevron-right"
+              onPress={() => navigation.navigate("RegisterPatients")}
+            />
+          </ButtonContainer>
+          <ContainerLink
+            onPress={() => navigation.navigate("RegisterNutritionists")}
+          >
+            <TextLink>Efetuar Cadastro</TextLink>
+          </ContainerLink>
+          <ContainerLink onPress={() => console.log("Press 2")}>
+            <TextLink>Esqueceu a senha?</TextLink>
+          </ContainerLink>
+        </Content>
       </BackgroundContent>
     </Container>
   )
