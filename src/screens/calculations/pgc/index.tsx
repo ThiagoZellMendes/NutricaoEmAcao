@@ -18,10 +18,17 @@ import {
   ContainerAge,
   ContainerCalculaters,
   ContainerInputsdoubles,
+  ContainerPatient,
   ContainerSkinFolds,
   Containergenre,
   Content,
+  PatientName,
+  PatientTitle,
 } from "./styles"
+
+const MockPatient = {
+  patientName: "José Thiago Silva Mendes",
+}
 
 export function CalculationPgc() {
   const [genre, setGenre] = useState<Sexo>()
@@ -100,7 +107,7 @@ export function CalculationPgc() {
   return (
     <Container>
       <BackgroundContent>
-        <Content>
+        <Content showsVerticalScrollIndicator={false}>
           <ContainerCalculaters>
             <ResultCalculationsComponent
               colorResult={resultCalc.categoria as any}
@@ -122,6 +129,11 @@ export function CalculationPgc() {
               }
               tableResult={resultCalc.categoria}
             />
+            <ContainerPatient>
+              <PatientTitle>Paciente: </PatientTitle>
+              <PatientName>{`${MockPatient.patientName}`}</PatientName>
+            </ContainerPatient>
+
             <Containergenre>
               <GenreButton
                 isActive={genre === "M"}
@@ -138,9 +150,9 @@ export function CalculationPgc() {
               <InputCalculations
                 name="idade"
                 type="custom"
-                  options={{
-                    mask: "999",
-                  }}
+                options={{
+                  mask: "999",
+                }}
                 TitleCalculate="Idade"
                 isActive={true}
                 control={control}

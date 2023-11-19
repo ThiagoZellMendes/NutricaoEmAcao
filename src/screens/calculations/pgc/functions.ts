@@ -101,7 +101,7 @@ function obterTabelaClassificacao(
       Alto: [28, 30],
       "Muito Alto": [31, Infinity],
     },
-    "56 a 65": {
+    "56 a Infinity": {
       "Muito Baixo": [0, 13],
       Excelente: [13, 18],
       "Muito Bom": [19, 21],
@@ -157,7 +157,7 @@ function obterTabelaClassificacao(
       Alto: [35, 38],
       "Muito Alto": [39, Infinity],
     },
-    "56 a 65": {
+    "56 a Infinity": {
       "Muito Baixo": [0, 18],
       Excelente: [18, 22],
       "Muito Bom": [23, 26],

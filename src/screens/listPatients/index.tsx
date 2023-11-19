@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react"
 
+import Logo2 from "../../assets/Logo2.svg"
+import { ButtonComponent } from "../../components/ButtonComponent"
+import { DATA } from "./data"
+import { PropsData } from "./props"
 import {
   BackgroundContent,
   Container,
@@ -14,19 +18,19 @@ import {
   Separator,
   Title,
 } from "./styles"
-import { ButtonComponent } from "../../components/ButtonComponent"
-import Logo2 from "../../assets/Logo2.svg"
-import { DATA } from "./data"
-import { PropsData } from "./props"
-import { Text } from "react-native"
+import { useNavigation } from "@react-navigation/native"
 
 export function ListPatients() {
-  const [pacientsData, setPacientsData] = useState<PropsData[]>([] as PropsData[])
+  const [pacientsData, setPacientsData] = useState<PropsData[]>(
+    [] as PropsData[]
+  )
 
+  const navigation = useNavigation<any>()
 
-useEffect(() => {
-  setPacientsData(DATA)
-}),[pacientsData]
+  useEffect(() => {
+    setPacientsData(DATA)
+  }),
+    [pacientsData]
 
   return (
     <Container>
@@ -35,7 +39,7 @@ useEffect(() => {
           <Logo2 />
         </ContainerLogo>
         <ContainerTitle>
-          <Title>Lista de Pacientes</Title>
+          <Title>Lista de Pacientes:</Title>
         </ContainerTitle>
         <ContainerList>
           {!pacientsData || pacientsData.length === 0 ? (
@@ -51,7 +55,7 @@ useEffect(() => {
               keyExtractor={(item) => item.key}
               renderItem={({ item }) => (
                 <ButtonComponent
-                  type='default'
+                  type="default"
                   title={item.name}
                   nameIcon="chevron-right"
                   onPress={() => console.log("teste 1")}
@@ -62,7 +66,7 @@ useEffect(() => {
           )}
         </ContainerList>
         <ContainerAddPatients>
-          <IconAdd name={"plus"} />
+          <IconAdd name={"plus"} onPress={() => navigation.navigate('RegisterPatients')}/>
         </ContainerAddPatients>
       </BackgroundContent>
     </Container>

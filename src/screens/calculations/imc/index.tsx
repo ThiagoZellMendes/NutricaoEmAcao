@@ -19,10 +19,17 @@ import {
   ContainerAge,
   ContainerCalculaters,
   ContainerInputsdoubles,
+  ContainerPatient,
   ContainerSkinFolds,
   Containergenre,
   Content,
+  PatientName,
+  PatientTitle,
 } from "./styles"
+
+const MockPatient = {
+  patientName: "José Thiago Silva Mendes",
+}
 
 export function CalculationImc() {
   const [genre, setGenre] = useState<Sexo>()
@@ -80,6 +87,10 @@ export function CalculationImc() {
     }
   }
 
+  // function handleSavePatient() {
+
+  // }
+
   function handlegenreButton(type: Sexo) {
     setGenre(type)
   }
@@ -94,7 +105,7 @@ export function CalculationImc() {
   return (
     <Container>
       <BackgroundContent>
-        <Content>
+        <Content showsVerticalScrollIndicator={false}>
           <ContainerCalculaters>
             <ResultCalculationsComponent
               colorResult={resultCalc?.diagnostico as any}
@@ -116,6 +127,10 @@ export function CalculationImc() {
               }
               tableResult={resultCalc?.diagnostico}
             />
+            <ContainerPatient>
+              <PatientTitle>Paciente:</PatientTitle>
+              <PatientName>{MockPatient.patientName}</PatientName>
+            </ContainerPatient>
             <Containergenre>
               <GenreButton
                 isActive={genre === "M"}
@@ -162,7 +177,7 @@ export function CalculationImc() {
                   name="altura"
                   type="custom"
                   options={{
-                    mask: '9.99',
+                    mask: "9.99",
                   }}
                   TitleCalculate="Altura"
                   isActive={true}

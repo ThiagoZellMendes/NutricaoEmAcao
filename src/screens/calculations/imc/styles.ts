@@ -10,14 +10,28 @@ export const Container = styled(GestureHandlerRootView)`
 
 export const BackgroundContent = styled(BackgroundComponent)``
 
-export const Content = styled.View`
-  flex: 1;
+export const Content = styled.ScrollView`
   align-self: center;
   padding: 0 ${RFValue(16)}px;
-  justify-content: space-between;
   margin-bottom: ${() => (Platform.OS === "android" ? "20px" : "30px")};
 `
+export const ContainerPatient = styled.View`
+  align-items: flex-start;
+  flex-direction: row;
+`;
+export const PatientTitle = styled.Text`
+  font-size: ${RFValue(14)}px;
+  font-weight: bold;
+`;
+
+export const PatientName = styled.Text`
+  font-size: ${RFValue(14)}px;
+  font-weight: normal;
+  color: ${({theme}) => theme.colors.success };
+`;
+
 export const Containergenre = styled.View`
+  margin-top: ${RFValue(30)}px; ;
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: ${RFValue(30)}px;

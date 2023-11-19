@@ -12,7 +12,6 @@ export const Container = styled(GestureHandlerRootView)`
 `
 
 export const BackgroundContent = styled(BackgroundComponent)`
-  justify-content: space-between;
 `
 
 export const ContainerTitle = styled(View)`
@@ -27,13 +26,21 @@ export const Title = styled(Text)`
   color: ${({ theme }) => theme.colors.title_dark};
 `
 
-export const ContainerLogo = styled.View``
+export const ContainerLogo = styled.View`
+  align-self: center;
+  margin-bottom: 16px;
+`
 
 export const ContainerList = styled.View`
-  flex: 1;
-  width: 100%;
-  padding: 0px ${RFValue(16)}px;
+  height: ${RFValue(300)}px;
+  width: 93%;
   align-items: center;
+  border: 1px solid;
+  border-radius: 5px;
+  border-color: ${({theme}) => theme.colors.text};
+  padding: ${RFValue(6)}px ${RFValue(10)}px;
+  margin: 0 15px;
+  margin-bottom:${RFValue(20)}px;
 `;
 
 export const PatientsList = styled(FlatList<PropsData>)
@@ -43,7 +50,7 @@ export const PatientsList = styled(FlatList<PropsData>)
     paddingBottom: getBottomSpace(),
   }
 })`
-  width: 100%
+  width: 100%;
 `;
 
 export const Separator = styled.View`

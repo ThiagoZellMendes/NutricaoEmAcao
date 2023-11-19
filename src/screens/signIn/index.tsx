@@ -55,7 +55,7 @@ export function SignIn() {
             <InputForm
               type="custom"
               options={{
-                mask: "*",
+                mask: "**************************************",
               }}
               name="senha"
               control={control}
@@ -68,7 +68,7 @@ export function SignIn() {
               type="default"
               title={"Acessar"}
               nameIcon="chevron-right"
-              onPress={() => navigation.navigate("RegisterPatients")}
+              onPress={() => navigation.navigate("ListPatients")}
             />
           </ButtonContainer>
           <ContainerLink

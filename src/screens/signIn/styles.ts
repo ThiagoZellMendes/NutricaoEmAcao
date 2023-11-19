@@ -13,8 +13,7 @@ export const BackgroundContent = styled(BackgroundComponent)`
 
 `
 
-export const Content = styled.View`
-  align-items: center;
+export const Content = styled.ScrollView`
   margin: 0 ${RFValue(20)}px ;
 `
 
@@ -39,4 +38,5 @@ export const TextLink = styled.Text`
   font-size: ${RFValue(14)}px;
   color: ${({ theme }) => theme.colors.title};
   margin-top: ${RFValue(10)}px;
+  align-self: center;
 `
