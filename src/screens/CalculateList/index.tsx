@@ -12,7 +12,7 @@ import { ButtonComponent } from "../../components/ButtonComponent"
 import Logo2 from "../../assets/Logo2.svg"
 import { useNavigation } from "@react-navigation/native"
 
-export function ListCalculate() {
+export function CalculateList() {
   const navigation = useNavigation<any>()
   return (
     <Container>

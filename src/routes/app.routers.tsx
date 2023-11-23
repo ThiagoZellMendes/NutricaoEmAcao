@@ -7,7 +7,10 @@ import { RegisterPatients } from "../screens/register/pacients"
 import { ListPatients } from "../screens/listPatients"
 import { CalculationImc } from "../screens/calculations/imc"
 import { CalculationPgc } from "../screens/calculations/pgc"
-import { ListCalculate } from "../screens/listCalculate"
+import { CalculateList } from "../screens/CalculateList"
+
+
+
 
 const { Screen, Navigator } = createNativeStackNavigator()
 
@@ -45,8 +48,8 @@ export function RoutersApp() {
           }}
         />
         <Screen
-          name="ListCalculate"
-          component={ListCalculate}
+          name="CalculateList"
+          component={CalculateList}
           options={{
             headerBackTitleVisible: false,
             headerTintColor: "#65717B",
