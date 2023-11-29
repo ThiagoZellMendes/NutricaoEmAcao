@@ -7,6 +7,7 @@ import * as Yup from "yup"
 import Logo2 from "../../assets/Logo2.svg"
 import { ButtonComponent } from "../../components/ButtonComponent"
 import { InputForm } from "../../components/InputForm"
+import auth from "@react-native-firebase/auth"
 
 import {
   BackgroundContent,
@@ -18,13 +19,14 @@ import {
   Content,
   TextLink,
 } from "./styles"
+import { PropsSignIn } from "./props"
+import { Alert } from "react-native"
 
 export function SignIn() {
-  const navigation = useNavigation<any>()
-
+  const { navigate } = useNavigation<any>()
   const schema = Yup.object().shape({
-    cpf: Yup.string().required("digite seu CPF"),
-    senha: Yup.string().required("Campo obrigatorio"),
+    email: Yup.string().required("digite seu CPF"),
+    password: Yup.string().required("Campo obrigatorio"),
   })
 
   const {
@@ -35,6 +37,19 @@ export function SignIn() {
   } = useForm({
     resolver: yupResolver(schema),
   })
+
+  async function handleSignIn(form: PropsSignIn) {
+    if (form.email && form.password) {
+      try {
+        await auth().signInWithEmailAndPassword(form.email, form.password)
+        navigate("ListPatients")
+      } catch (error) {
+        if (error.code === 'auth/internal-error') {
+          Alert.alert("Email ou senha incorreta")
+        }
+      }
+    }
+  }
   return (
     <Container>
       <BackgroundContent>
@@ -44,11 +59,16 @@ export function SignIn() {
           </ContainerLogo>
           <ContainerForm>
             <InputForm
-              name="cpf"
-              type="cpf"
+              name="email"
+              type="custom"
+              options={{
+                mask: "******************************",
+              }}
               control={control}
-              placeholder={"Digite seu cpf"}
-              errorInput={errors.cpf && errors.cpf.message}
+              autoCapitalize={"none"}
+              autoCorrect={false}
+              placeholder={"Digite seu email"}
+              errorInput={errors.email && errors.email.message}
             />
           </ContainerForm>
           <ContainerForm>
@@ -57,10 +77,13 @@ export function SignIn() {
               options={{
                 mask: "************************************",
               }}
-              name="senha"
+              name="password"
+              autoCapitalize={"none"}
+              autoCorrect={false}
               control={control}
+              secureTextEntry={true}
               placeholder={"Digite sua senha"}
-              errorInput={errors.senha && errors.senha.message}
+              errorInput={errors.password && errors.password.message}
             />
           </ContainerForm>
           <ButtonContainer>
@@ -68,12 +91,10 @@ export function SignIn() {
               type="default"
               title={"Acessar"}
               nameIcon="chevron-right"
-              onPress={() => navigation.navigate("ListPatients")}
+              onPress={handleSubmit(handleSignIn)}
             />
           </ButtonContainer>
-          <ContainerLink
-            onPress={() => navigation.navigate("RegisterNutritionists")}
-          >
+          <ContainerLink onPress={() => navigate("RegisterNutritionists")}>
             <TextLink>Efetuar Cadastro</TextLink>
           </ContainerLink>
           <ContainerLink onPress={() => console.log("Press 2")}>
