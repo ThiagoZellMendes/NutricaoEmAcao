@@ -28,13 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>nutricaoemacao</string>
-          <string>nutricao-em-acao</string>
-        </array>
-      </dict>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>exp+nutricao-em-acao</string>
+          <string>com.nutricaoemacao</string>
         </array>
       </dict>
     </array>

@@ -37,7 +37,7 @@ elsif podfile_properties.key?('ios.flipper') then
   end
 end
 
-target 'nutricaoEmacao' do
+target 'nutricaoemacao' do
   use_expo_modules!
   config = use_native_modules!
 
@@ -56,6 +56,9 @@ target 'nutricaoEmacao' do
     # Note that if you have use_frameworks! enabled, Flipper will not work if enabled
     :flipper_configuration => flipper_config
   )
+
+  use_frameworks! :linkage => :static
+  $RNFirebaseAsStaticFramework = true
 
   post_install do |installer|
     react_native_post_install(

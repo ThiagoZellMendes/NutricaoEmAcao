@@ -1,4 +1,4 @@
-package com.nutricaoemacao;
+package com.nutricaemacao;
 
 import android.app.Application;
 import android.content.res.Configuration;

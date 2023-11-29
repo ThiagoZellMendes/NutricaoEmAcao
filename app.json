@@ -17,6 +17,12 @@
       "eas": {
         "projectId": "afa0cf78-bc25-42b2-83ad-0ccd20b4216e"
       }
+    },
+    "android": {
+      "package": "com.nutricaemacao"
+    },
+    "ios": {
+      "bundleIdentifier": "com.nutricaoemacao"
     }
   },
   "name": "NutricaoEmAcao"
