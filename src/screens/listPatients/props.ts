@@ -1,4 +1,7 @@
 export interface PropsData {
-  key: string;
-  name: string;
+  fullName: string;
+  age: string;
+  genre: string;
+  id: string;
+  cpf: string;
 }

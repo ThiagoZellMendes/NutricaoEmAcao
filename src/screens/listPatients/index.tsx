@@ -4,6 +4,7 @@ import Logo2 from "../../assets/Logo2.svg"
 import { ButtonComponent } from "../../components/ButtonComponent"
 import { DATA } from "./data"
 import { PropsData } from "./props"
+import firestore from "@react-native-firebase/firestore"
 import {
   BackgroundContent,
   Container,
@@ -21,16 +22,36 @@ import {
 import { useNavigation } from "@react-navigation/native"
 
 export function ListPatients() {
-  const [pacientsData, setPacientsData] = useState<PropsData[]>(
-    [] as PropsData[]
-  )
+  const [pacientsData, setPacientsData] = useState([])
 
   const navigation = useNavigation<any>()
 
-  useEffect(() => {
-    setPacientsData(DATA)
-  }),
-    [pacientsData]
+
+ function getPatients() {
+   try {
+     firestore()
+     .collection("patients")
+     .onSnapshot(onSnapshot  => {
+       const patientsForData = []
+       onSnapshot.forEach(documentSnapshot => {
+         patientsForData.push({
+           ...documentSnapshot.data(),
+           key: documentSnapshot.id,
+          });
+        });
+        setPacientsData(patientsForData);
+      });
+   }catch(error){
+
+    }
+  
+ }
+
+ useEffect(() => {
+  getPatients();
+}, []);
+
+  console.log(pacientsData)
 
   return (
     <Container>
@@ -52,21 +73,23 @@ export function ListPatients() {
           ) : (
             <PatientsList
               data={pacientsData}
-              keyExtractor={(item) => item.key}
+              keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <ButtonComponent
                   type="default"
-                  title={item.name}
+                  title={item.fullName}
                   nameIcon="chevron-right"
-                  onPress={() => console.log("teste 1")}
+                  onPress={() => navigation.navigate("PatientDetails", { patient: item })}
                 />
               )}
               ItemSeparatorComponent={() => <Separator />}
             />
           )}
         </ContainerList>
-        <ContainerAddPatients>
-          <IconAdd name={"plus"} onPress={() => navigation.navigate('RegisterPatients')}/>
+        <ContainerAddPatients onPress={() => navigation.navigate("RegisterPatients")}>
+          <IconAdd
+            name={"plus"}
+          />
         </ContainerAddPatients>
       </BackgroundContent>
     </Container>
