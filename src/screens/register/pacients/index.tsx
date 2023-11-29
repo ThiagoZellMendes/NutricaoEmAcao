@@ -5,9 +5,11 @@ import { useNavigation } from "@react-navigation/native"
 import { useForm } from "react-hook-form"
 import * as Yup from "yup"
 import Logo2 from "../../../assets/Logo2.svg"
+import uuid from "react-native-uuid"
 import { ButtonComponent } from "../../../components/ButtonComponent"
 import { DropdownComponent } from "../../../components/DropDonwList"
 import { InputForm } from "../../../components/InputForm"
+import firestore from "@react-native-firebase/firestore"
 import {
   BackgroundContent,
   ButtonContainer,
@@ -17,6 +19,9 @@ import {
   Content,
   ContentRegister,
 } from "./styles"
+import { PatientProps } from "./props"
+import { ActivityIndicator, Alert, Modal, StyleSheet, View } from "react-native"
+import { ConfirmationModal } from "../../../components/modal"
 
 const data = [
   { label: "Masculino", value: "M" },
@@ -25,16 +30,45 @@ const data = [
 
 export function RegisterPatients() {
   const [genre, setGenre] = useState()
+  const [loading, setLoading] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
   const { navigate } = useNavigation<any>()
 
   const schema = Yup.object().shape({
     cpf: Yup.string().required("digite seu CPF"),
-    name: Yup.string().required("digite o nome do paciente"),
-    idade: Yup.string().required("digite seu sobrenome"),
+    fullName: Yup.string().required("digite o nome do paciente"),
+    age: Yup.string().required("digite seu sobrenome"),
   })
 
-  const handleRegister = () => {
-    navigate("ListCalculate")
+  async function handleCreatePatient({ fullName, cpf, age }: PatientProps) {
+    setLoading(true)
+    try {
+      const cpfSnapshot = await firestore()
+        .collection("patients")
+        .where("cpf", "==", cpf)
+        .get()
+
+      if (!cpfSnapshot.empty) {
+        setLoading(false)
+        setTimeout(() => Alert.alert('Cpf já cadastrado'), 1500);
+      } else {
+        await firestore()
+          .collection("patients")
+          .add({
+            id: String(uuid.v4()),
+            fullName,
+            cpf,
+            age,
+            genre,
+          })
+          setLoading(false)
+          setTimeout(() => setIsModalVisible(true), 1500);
+      }
+    } catch (error) {
+      setLoading(false)
+      Alert.alert("Ocorreu um erro ao processar o cadastro")
+      console.error("Erro:", error)
+    }
   }
 
   const {
@@ -45,6 +79,11 @@ export function RegisterPatients() {
   } = useForm({
     resolver: yupResolver(schema),
   })
+
+  const closeModal = () => {
+    setIsModalVisible(false)
+    navigate("ListPatients")
+  }
 
   console.log("🔥", genre)
   return (
@@ -66,26 +105,26 @@ export function RegisterPatients() {
             </ContainerForm>
             <ContainerForm>
               <InputForm
-                name="name"
+                name="fullName"
                 type="custom"
                 options={{
                   mask: "*******************************************",
                 }}
                 control={control}
                 placeholder={"Digite o nome completo do paciente"}
-                errorInput={errors.name && errors.name.message}
+                errorInput={errors.fullName && errors.fullName.message}
               />
             </ContainerForm>
             <ContainerForm>
               <InputForm
-                name="idade"
+                name="age"
                 type="custom"
                 options={{
                   mask: "999",
                 }}
                 control={control}
                 placeholder={"Digite o a idade do paciente"}
-                errorInput={errors.idade && errors.idade.message}
+                errorInput={errors.age && errors.age.message}
               />
             </ContainerForm>
             <ContainerForm>
@@ -102,11 +141,42 @@ export function RegisterPatients() {
               type="default"
               title={"Cadastar"}
               nameIcon="chevron-right"
-              onPress={handleSubmit(handleRegister)}
+              onPress={handleSubmit(handleCreatePatient)}
             />
           </ButtonContainer>
         </Content>
       </BackgroundContent>
+      {loading && (
+        <Modal transparent={true} animationType="fade" visible={loading}>
+          <Modal transparent={true} animationType="fade" visible={loading}>
+            <View style={styles.modalContainer}>
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="green" />
+              </View>
+            </View>
+          </Modal>
+        </Modal>
+      )}
+      <ConfirmationModal isVisible={isModalVisible} closeModal={closeModal} />
     </Container>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingContainer: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+  },
+})

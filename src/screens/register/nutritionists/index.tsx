@@ -28,16 +28,16 @@ export function RegisterNutritionists() {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   const schema = Yup.object().shape({
-    firstName: Yup.string().required("digite seu nome"),
-    lastName: Yup.string().required("digite seu sobrenome"),
-    cpf: Yup.string().required("digite seu CPF"),
+    firstName: Yup.string().required("digite seu nome").trim(),
+    lastName: Yup.string().required("digite seu sobrenome").trim(),
+    cpf: Yup.string().required("digite seu CPF").trim(),
     email: Yup.string()
       .email("email obrigartorio")
-      .required("digite seu email"),
-    password: Yup.string().required("digite sua senha"),
+      .required("digite seu email").trim(),
+    password: Yup.string().required("digite sua senha").trim(),
     passwordConfirmation: Yup.string()
       .required("confirme sua senha")
-      .oneOf([Yup.ref("password")], "As senhas não coincidem "),
+      .oneOf([Yup.ref("password")], "As senhas não coincidem ").trim(),
   })
 
   const {
@@ -149,6 +149,7 @@ export function RegisterNutritionists() {
               options={{
                 mask: "**************************************",
               }}
+              autoCapitalize="none"
               name="email"
               control={control}
               placeholder={"Digite seu e-mail"}
@@ -163,6 +164,7 @@ export function RegisterNutritionists() {
                 mask: "************",
               }}
               control={control}
+              secureTextEntry={true}
               placeholder={"Digite sua senha"}
               errorInput={errors.password && errors.password.message}
             />
@@ -175,6 +177,7 @@ export function RegisterNutritionists() {
                 mask: "************",
               }}
               control={control}
+              secureTextEntry={true}
               placeholder={"Confirme sua senha"}
               errorInput={
                 errors.passwordConfirmation &&
