@@ -55,7 +55,7 @@ export function SignIn() {
             <InputForm
               type="custom"
               options={{
-                mask: "**************************************",
+                mask: "************************************",
               }}
               name="senha"
               control={control}
