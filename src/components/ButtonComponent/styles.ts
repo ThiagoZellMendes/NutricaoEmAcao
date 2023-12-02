@@ -13,9 +13,14 @@ export const Container = styled.View<ButtonComponentPropsStyles>`
       background-color: ${({ theme }) => theme.colors.primary};
     `}
   ${({ type }) =>
-    type === "clean" &&
+    type === "save" &&
     css`
       background-color: ${({ theme }) => theme.colors.genreMan};
+    `}
+  ${({ type }) =>
+    type === "clean" &&
+    css`
+      background-color: ${({ theme }) => theme.colors.secondary};
     `}
 `
 

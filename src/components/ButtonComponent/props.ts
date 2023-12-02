@@ -4,9 +4,9 @@ export interface ButtonComponentProps extends RectButtonProps {
   title: string
   nameIcon?: string
   onPress: () => void
-  type: "clean" | "default"
+  type: "clean" | "default" | 'save'
 }
 
 export interface ButtonComponentPropsStyles extends RectButtonProps{
-  type: "clean" | "default"
+  type: "clean" | "default" | 'save'
 }
