@@ -18,20 +18,20 @@ export const Content = styled.ScrollView`
 export const ContainerPatient = styled.View`
   align-items: flex-start;
   flex-direction: row;
-`;
+`
 export const PatientTitle = styled.Text`
   font-size: ${RFValue(14)}px;
   font-weight: bold;
-`;
+`
 
 export const PatientName = styled.Text`
   font-size: ${RFValue(14)}px;
   font-weight: normal;
-  color: ${({theme}) => theme.colors.success };
-`;
+  color: ${({ theme }) => theme.colors.success};
+`
 
 export const Containergenre = styled.View`
-  margin-top: ${RFValue(30)}px; ;
+  margin-top: ${RFValue(30)}px;
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: ${RFValue(30)}px;
@@ -57,4 +57,7 @@ export const ContainerInputsdoubles = styled.View`
 export const ButtonContainer = styled.View`
   justify-content: space-between;
   flex-direction: row;
+`
+export const ButtonContainerSave = styled.View`
+  margin-top: ${RFValue(10)}px;
 `

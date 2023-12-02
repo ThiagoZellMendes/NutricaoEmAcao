@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
@@ -9,12 +9,14 @@ import { ButtonComponent } from "../../../components/ButtonComponent"
 import { GenreButton } from "../../../components/Forms/GenreButton"
 import { InputCalculations } from "../../../components/Forms/InputCalculations"
 import { ResultCalculationsComponent } from "../../../components/ResultCalculations"
+import firestore from "@react-native-firebase/firestore"
 
 import { calcularIMC } from "./functions"
 import { FormDataCalc, ResultadoIMC, Sexo } from "./props"
 import {
   BackgroundContent,
   ButtonContainer,
+  ButtonContainerSave,
   Container,
   ContainerAge,
   ContainerCalculaters,
@@ -26,24 +28,36 @@ import {
   PatientName,
   PatientTitle,
 } from "./styles"
-
-const MockPatient = {
-  patientName: "José Thiago Silva Mendes",
-}
+import { useRoute } from "@react-navigation/native"
+import { PatientProps } from "../../globalProps"
+import { ConfirmationModal } from "../../../components/modal"
 
 export function CalculationImc() {
-  const [genre, setGenre] = useState<Sexo>()
-  const [resultCalc, setResultCalc] = useState<ResultadoIMC>()
+  const route = useRoute()
+  const { patient } = route.params as { patient: PatientProps }
+  const [genre, setGenre] = useState<Sexo>(patient.genre || ("" as any))
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [formValues, setFormValues] = useState({
+      age: '',
+      weight: '',
+      height: '',
+      imc: patient.imc,
+      diagnosticImc: patient.diagnosticImc,
+    } as PatientProps)
+
+  const closeModal = () => {
+    setIsModalVisible(false)
+  }
 
   const schema = Yup.object().shape({
-    idade: Yup.string()
+    age: Yup.string()
       .required("Digite sua idade")
       .min(1)
       .max(3)
       .required()
       .matches(/^[0-9]+$/, "Must be only digits"),
-    peso: Yup.string().required("Digite triceps").min(1),
-    altura: Yup.string().required("Digite biceps").min(1),
+    weight: Yup.string().required("Digite o peso").min(1),
+    height: Yup.string().required("Digite a altura").min(1),
   })
 
   const {
@@ -52,32 +66,48 @@ export function CalculationImc() {
     formState: { errors },
     reset,
   } = useForm({
+    defaultValues: {
+      age: patient.age,
+      weight: patient.weight,
+      height: patient.height,
+      imc: patient.imc,
+      diagnosticImc: patient.diagnosticImc,
+    } as PatientProps,
     resolver: yupResolver(schema),
   })
 
-  const handleCalculate = (form: FormDataCalc) => {
+  const handleCalculate = (form: PatientProps) => {
     if (!genre) return Alert.alert("Selecione um gênero")
 
     const newCalculation = {
       id: String(uuid.v4()),
-      idade: form.idade,
-      sexo: genre,
-      peso: form.peso,
-      altura: form.altura,
+      age: form.age,
+      genre: genre,
+      weight: form.weight,
+      height: form.height,
+      imc: form.imc,
+      diagnosticImc: form.diagnosticImc,
     }
 
     try {
       const result = calcularIMC(
-        parseFloat(form.peso),
-        parseFloat(form.altura),
-        parseInt(form.idade),
+        parseFloat(form.weight),
+        parseFloat(form.height),
+        parseInt(form.age),
         genre
       )
-      setResultCalc(result)
+      setFormValues((prevFormValues) => ({
+        ...prevFormValues,
+        age: form.age,
+        genre: genre,
+        weight: form.weight,
+        height: form.height,
+        imc: result.imc,
+        diagnosticImc: result.diagnostico,
+      }))
       if (!result) {
         reset()
       }
-
       console.log("🔥", result)
       console.log("✨", newCalculation)
 
@@ -87,31 +117,60 @@ export function CalculationImc() {
     }
   }
 
-  // function handleSavePatient() {
-
-  // }
+  function handleSavePatient() {
+    firestore()
+      .collection("patients")
+      .doc(patient.key)
+      .update({
+        age: formValues.age,
+        genre: genre,
+        weight: formValues.weight,
+        height: formValues.height,
+        imc: formValues.imc,
+        diagnosticImc: formValues.diagnosticImc,
+       })
+      .then(() => {
+      <ConfirmationModal isVisible={isModalVisible} closeModal={closeModal} title={"Paciente salvo com sucesso"}/>
+      })
+  }
 
   function handlegenreButton(type: Sexo) {
     setGenre(type)
   }
 
   function handleClean() {
-    setGenre(null)
-    reset()
-    setResultCalc({ diagnostico: "", imc: 0 })
+    setGenre(null),
+      setFormValues({
+        age: '',
+        weight: '',
+        height: '',
+        imc: '',
+        diagnosticImc: ''
+      } as unknown as PatientProps)
+    reset({
+      age: '',
+      weight: '',
+      height: '',
+    })
     Alert.alert("Calculos Resetados")
   }
 
+  // useEffect(() => {
+  // }, [])
+
+  console.log(formValues)
   return (
     <Container>
       <BackgroundContent>
         <Content showsVerticalScrollIndicator={false}>
           <ContainerCalculaters>
             <ResultCalculationsComponent
-              colorResult={resultCalc?.diagnostico as any}
+              colorResult={
+                (formValues?.diagnosticImc as any || '')
+              }
               percentageResult={
-                resultCalc?.imc ? (
-                  resultCalc?.imc.toString()
+                formValues?.imc ? (
+                  patient.imc || formValues?.imc.toString()
                 ) : (
                   <Text
                     style={{
@@ -125,11 +184,11 @@ export function CalculationImc() {
                   </Text>
                 )
               }
-              tableResult={resultCalc?.diagnostico}
+              tableResult={formValues?.diagnosticImc}
             />
             <ContainerPatient>
               <PatientTitle>Paciente:</PatientTitle>
-              <PatientName>{MockPatient.patientName}</PatientName>
+              <PatientName>{` ${patient.fullName}`}</PatientName>
             </ContainerPatient>
             <Containergenre>
               <GenreButton
@@ -145,7 +204,7 @@ export function CalculationImc() {
             </Containergenre>
             <ContainerAge>
               <InputCalculations
-                name="idade"
+                name="age"
                 type="custom"
                 options={{
                   mask: "999",
@@ -154,13 +213,13 @@ export function CalculationImc() {
                 isActive={true}
                 control={control}
                 placeholder="0"
-                errorInput={errors.idade && errors.idade.message}
+                errorInput={errors.age && errors.age.message}
               />
             </ContainerAge>
             <ContainerSkinFolds>
               <ContainerInputsdoubles>
                 <InputCalculations
-                  name="peso"
+                  name="weight"
                   type="custom"
                   options={{
                     mask: "999",
@@ -169,12 +228,12 @@ export function CalculationImc() {
                   isActive={true}
                   control={control}
                   placeholder="0"
-                  errorInput={errors.peso && errors.peso.message}
+                  errorInput={errors.weight && errors.weight.message}
                 />
               </ContainerInputsdoubles>
               <ContainerInputsdoubles>
                 <InputCalculations
-                  name="altura"
+                  name="height"
                   type="custom"
                   options={{
                     mask: "9.99",
@@ -183,7 +242,7 @@ export function CalculationImc() {
                   isActive={true}
                   control={control}
                   placeholder="0"
-                  errorInput={errors.altura && errors.altura.message}
+                  errorInput={errors.height && errors.height.message}
                 />
               </ContainerInputsdoubles>
             </ContainerSkinFolds>
@@ -204,6 +263,13 @@ export function CalculationImc() {
               />
             </ContainerInputsdoubles>
           </ButtonContainer>
+          <ButtonContainerSave>
+            <ButtonComponent
+              title={"Salvar Calculos do paciente"}
+              type="save"
+              onPress={handleSavePatient}
+            />
+          </ButtonContainerSave>
         </Content>
       </BackgroundContent>
     </Container>

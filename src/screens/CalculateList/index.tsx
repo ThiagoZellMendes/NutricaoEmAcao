@@ -10,10 +10,17 @@ import {
 } from "./styles"
 import { ButtonComponent } from "../../components/ButtonComponent"
 import Logo2 from "../../assets/Logo2.svg"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, useRoute } from "@react-navigation/native"
+import { PatientProps } from "../globalProps"
+
 
 export function CalculateList() {
   const navigation = useNavigation<any>()
+
+  const route = useRoute();
+  const { patient } = route.params as {patient: PatientProps};
+
+  console.log(patient)
   return (
     <Container>
       <BackgroundContent>
@@ -28,7 +35,7 @@ export function CalculateList() {
             type="default"
             title={"Indice de Massa \n Corporal"}
             nameIcon="chevron-right"
-            onPress={() => navigation.navigate("CalculationImc")}
+            onPress={() => navigation.navigate("CalculationImc", { patient: patient })}
           />
         </ButtonContainer>
         <ButtonContainer>
@@ -36,7 +43,7 @@ export function CalculateList() {
             type="default"
             title={"Percentual de \n Gordura Corporal"}
             nameIcon="chevron-right"
-            onPress={() => navigation.navigate("CalculationPgc")}
+            onPress={() => navigation.navigate("CalculationPgc", { patient: patient })}
           />
         </ButtonContainer>
       </BackgroundContent>

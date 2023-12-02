@@ -1,6 +1,6 @@
 export enum Sexo {
-  masculino = "M",
-  feminino = "F",
+  "masculino" = "M",
+  "feminino" = "F",
 }
 
 export interface ResultadoIMC {
