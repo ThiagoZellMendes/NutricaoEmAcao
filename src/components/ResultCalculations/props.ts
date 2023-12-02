@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 
 
 export interface PropsResultComponent {
-  percentageResult: string | ReactElement; 
+  percentageResult: string | ReactElement | number; 
   tableResult: string
   colorResult:
     | "Muito Baixo"
