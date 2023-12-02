@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Modal, Text, View, StyleSheet, TouchableOpacity } from "react-native"
 import { Feather } from "@expo/vector-icons"
 
-export function ConfirmationModal({ isVisible, closeModal }) {
+export function ConfirmationModal({ isVisible, closeModal, title }) {
   return (
     <Modal
       animationType="slide"
@@ -15,7 +15,7 @@ export function ConfirmationModal({ isVisible, closeModal }) {
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Feather name="check-circle" size={50} color="green" />
-          <Text style={styles.successText}>Cadastro concluído com sucesso</Text>
+          <Text style={styles.successText}>{title}</Text>
           <TouchableOpacity style={styles.okButton} onPress={closeModal}>
             <Text style={styles.okButtonText}>OK</Text>
           </TouchableOpacity>
