@@ -28,6 +28,7 @@ const data = [
   { label: "Feminino", value: "F" },
 ] as any
 
+
 export function RegisterPatients() {
   const [genre, setGenre] = useState()
   const [loading, setLoading] = useState(false)
@@ -157,7 +158,7 @@ export function RegisterPatients() {
           </Modal>
         </Modal>
       )}
-      <ConfirmationModal isVisible={isModalVisible} closeModal={closeModal} />
+      <ConfirmationModal isVisible={isModalVisible} closeModal={closeModal} title={"Cadastro concluido com sucesso"} />
     </Container>
   )
 }

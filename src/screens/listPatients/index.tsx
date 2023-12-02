@@ -79,7 +79,7 @@ export function ListPatients() {
                   type="default"
                   title={item.fullName}
                   nameIcon="chevron-right"
-                  onPress={() => navigation.navigate("PatientDetails", { patient: item })}
+                  onPress={() => navigation.navigate("CalculateList", { patient: item })}
                 />
               )}
               ItemSeparatorComponent={() => <Separator />}
