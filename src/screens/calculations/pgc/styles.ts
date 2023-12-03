@@ -59,3 +59,8 @@ export const ButtonContainer = styled.View`
   justify-content: space-between;
   flex-direction: row;
 `
+
+export const ButtonContainerSave = styled.View`
+  margin-top: ${RFValue(10)}px;
+`
+

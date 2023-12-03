@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
-import { Alert, Text } from "react-native"
+import { ActivityIndicator, Alert, Modal, StyleSheet, Text, View } from "react-native"
 import uuid from "react-native-uuid"
 import * as Yup from "yup"
 import { ButtonComponent } from "../../../components/ButtonComponent"
@@ -10,10 +10,12 @@ import { GenreButton } from "../../../components/Forms/GenreButton"
 import { InputCalculations } from "../../../components/Forms/InputCalculations"
 import { ResultCalculationsComponent } from "../../../components/ResultCalculations"
 import { calcularGorduraCorporal } from "./functions"
-import { FormDataCalc, ResultadoGordura, Sexo } from "./props"
+import firestore from "@react-native-firebase/firestore"
+import { Sexo } from "./props"
 import {
   BackgroundContent,
   ButtonContainer,
+  ButtonContainerSave,
   Container,
   ContainerAge,
   ContainerCalculaters,
@@ -25,19 +27,32 @@ import {
   PatientName,
   PatientTitle,
 } from "./styles"
-
-const MockPatient = {
-  patientName: "José Thiago Silva Mendes",
-}
+import { PatientProps } from "../../globalProps"
+import { useRoute } from "@react-navigation/native"
+import { ConfirmationModal } from "../../../components/modal"
 
 export function CalculationPgc() {
-  const [genre, setGenre] = useState<Sexo>()
-  const [resultCalc, setResultCalc] = useState<ResultadoGordura>(
-    {} as ResultadoGordura
-  )
+  const route = useRoute()
+  const { patient } = route.params as { patient: PatientProps }
+  const [genre, setGenre] = useState<Sexo>(patient.genre || ("" as any))
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [formValues, setFormValues] = useState({
+    age: "",
+    biceps: "",
+    subescapular: "",
+    triceps: "",
+    supraIliaca: "",
+    categoryPcg: patient.categoryPcg,
+    pgc: patient.pgc,
+  } )
+
+  const closeModal = () => {
+    setIsModalVisible(false)
+  }
 
   const schema = Yup.object().shape({
-    idade: Yup.string()
+    age: Yup.string()
       .required("Digite sua idade")
       .min(1)
       .max(3)
@@ -46,7 +61,7 @@ export function CalculationPgc() {
     triceps: Yup.string().required("Digite triceps").min(1),
     biceps: Yup.string().required("Digite biceps").min(1),
     subescapular: Yup.string().required("Digite subescapular").min(1),
-    suprailiaca: Yup.string().required("Digite suprailiaca").min(1),
+    supraIliaca: Yup.string().required("Digite suprailiaca").min(1),
   })
 
   const {
@@ -55,37 +70,54 @@ export function CalculationPgc() {
     formState: { errors },
     reset,
   } = useForm({
+    defaultValues: {
+      age: patient.age,
+      biceps: patient.biceps,
+      subescapular: patient.subescapular,
+      triceps: patient.triceps,
+      supraIliaca: patient.supraIliaca,
+      categoryPcg: patient.categoryPcg,
+      pgc: patient.pgc,
+    } as PatientProps,
     resolver: yupResolver(schema),
   })
 
-  const handleCalculate = (form: FormDataCalc) => {
+  const handleCalculate = (form: PatientProps) => {
     if (!genre) return Alert.alert("Selecione um gênero")
 
     const newCalculation = {
       id: String(uuid.v4()),
-      idade: form.idade,
-      sexo: genre,
+      age: form.age,
+      genre: genre,
       dobras: {
         triceps: parseFloat(form.triceps),
         biceps: parseFloat(form.biceps),
         subescapular: parseFloat(form.subescapular),
-        suprailiaca: parseFloat(form.suprailiaca),
+        supraIliaca: parseFloat(form.supraIliaca),
       },
     }
 
     try {
       const result = calcularGorduraCorporal(
         genre,
-        parseInt(form.idade),
+        parseInt(newCalculation.age),
         newCalculation.dobras
       )
-      setResultCalc(result)
+      setFormValues((prevFormValues) => ({
+        ...prevFormValues,
+        age: newCalculation.age,
+        biceps: String(newCalculation.dobras.biceps),
+        subescapular: String(newCalculation.dobras.subescapular),
+        triceps: String(newCalculation.dobras.triceps),
+        supraIliaca: String(newCalculation.dobras.supraIliaca),
+        categoryPcg: result.categoria,
+        pgc: result.percentual,
+      }))
       if (!result) {
         reset()
       }
 
       console.log("🔥", result)
-      console.log("✨", newCalculation)
 
       Alert.alert("Calculo Feito com sucesso!")
     } catch (err) {
@@ -93,16 +125,56 @@ export function CalculationPgc() {
     }
   }
 
+  function handleSavePatient() {
+    setLoading(true)
+
+    try {
+      firestore().collection("patients").doc(patient.key).update({
+        age: formValues.age,
+        genre: genre,
+        biceps: formValues.biceps,
+        subescapular: formValues.subescapular,
+        triceps: formValues.triceps,
+        supraIliaca: formValues.supraIliaca,
+        categoryPcg: formValues.categoryPcg,
+        pgc: formValues.pgc,
+      })
+      setTimeout(() => setLoading(false), 1000)
+      setTimeout(() => setIsModalVisible(true), 2000)
+    } catch (error) {
+      setLoading(false)
+      Alert.alert("Ocorreu um erro ao salvar paciente")
+      console.error("Erro:", error)
+    }
+  }
+
+
   function handlegenreButton(type: Sexo) {
     setGenre(type)
   }
 
   function handleClean() {
-    setGenre(null)
-    reset()
-    setResultCalc({ categoria: "", percentual: 0 })
+    setGenre(null),
+      setFormValues({
+        age: "",
+        biceps: "",
+        subescapular: "",
+        triceps: "",
+        supraIliaca: "",
+        categoryPcg: "",
+        pgc: 0,
+      } )
+    reset({
+      age: "",
+      biceps: "",
+      subescapular: "",
+      triceps: "",
+      supraIliaca: "",
+    })
     Alert.alert("Calculos Resetados")
   }
+
+  console.log(formValues)
 
   return (
     <Container>
@@ -110,10 +182,10 @@ export function CalculationPgc() {
         <Content showsVerticalScrollIndicator={false}>
           <ContainerCalculaters>
             <ResultCalculationsComponent
-              colorResult={resultCalc.categoria as any}
+              colorResult={formValues.categoryPcg as any}
               percentageResult={
-                resultCalc.percentual ? (
-                  resultCalc.percentual?.toFixed(2) + "%"
+                formValues.pgc ? (
+                  formValues.pgc?.toFixed(2) + "%"
                 ) : (
                   <Text
                     style={{
@@ -127,11 +199,11 @@ export function CalculationPgc() {
                   </Text>
                 )
               }
-              tableResult={resultCalc.categoria}
+              tableResult={formValues.categoryPcg}
             />
             <ContainerPatient>
               <PatientTitle>Paciente: </PatientTitle>
-              <PatientName>{`${MockPatient.patientName}`}</PatientName>
+              <PatientName>{`${patient.fullName}`}</PatientName>
             </ContainerPatient>
 
             <Containergenre>
@@ -148,7 +220,7 @@ export function CalculationPgc() {
             </Containergenre>
             <ContainerAge>
               <InputCalculations
-                name="idade"
+                name="age"
                 type="custom"
                 options={{
                   mask: "999",
@@ -157,7 +229,7 @@ export function CalculationPgc() {
                 isActive={true}
                 control={control}
                 placeholder="0"
-                errorInput={errors.idade && errors.idade.message}
+                errorInput={errors.age && errors.age.message}
               />
             </ContainerAge>
             <ContainerSkinFolds>
@@ -166,7 +238,7 @@ export function CalculationPgc() {
                   name="triceps"
                   type="custom"
                   options={{
-                    mask: "9.999,99",
+                    mask: "9999999",
                   }}
                   TitleCalculate="Tríceps"
                   isActive={true}
@@ -180,7 +252,7 @@ export function CalculationPgc() {
                   name="biceps"
                   type="custom"
                   options={{
-                    mask: "9.999,99",
+                    mask: "9999999",
                   }}
                   TitleCalculate="Bíceps"
                   isActive={true}
@@ -196,7 +268,7 @@ export function CalculationPgc() {
                   name="subescapular"
                   type="custom"
                   options={{
-                    mask: "9.999,99",
+                    mask: "9999999",
                   }}
                   TitleCalculate="subescapular"
                   isActive={true}
@@ -209,16 +281,16 @@ export function CalculationPgc() {
               </ContainerInputsdoubles>
               <ContainerInputsdoubles>
                 <InputCalculations
-                  name="suprailiaca"
+                  name="supraIliaca"
                   type="custom"
                   options={{
-                    mask: "9.999,99",
+                    mask: "9999999",
                   }}
                   TitleCalculate="Supra Íliaca"
                   isActive={true}
                   control={control}
                   placeholder="0"
-                  errorInput={errors.suprailiaca && errors.suprailiaca.message}
+                  errorInput={errors.supraIliaca && errors.supraIliaca.message}
                 />
               </ContainerInputsdoubles>
             </ContainerSkinFolds>
@@ -239,8 +311,50 @@ export function CalculationPgc() {
               />
             </ContainerInputsdoubles>
           </ButtonContainer>
+          <ButtonContainerSave>
+            <ButtonComponent
+              title={"Salvar Calculos do paciente"}
+              type="save"
+              onPress={handleSavePatient}
+            />
+          </ButtonContainerSave>
         </Content>
       </BackgroundContent>
+      {loading && (
+        <Modal transparent={true} animationType="fade" visible={loading}>
+          <Modal transparent={true} animationType="fade" visible={loading}>
+            <View style={styles.modalContainer}>
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="green" />
+              </View>
+            </View>
+          </Modal>
+        </Modal>
+      )}
+      <ConfirmationModal
+        isVisible={isModalVisible}
+        closeModal={closeModal}
+        title={"Paciente salvo com sucesso"}
+      />
     </Container>
   )
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingContainer: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+  },
+})
+

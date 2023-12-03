@@ -1,13 +1,13 @@
 export enum Sexo {
-  masculino = "M",
-  feminino = "F",
+  "masculino" = "M",
+  "feminino" = "F",
 }
 
 export interface DobraCutanea {
   triceps: number
   biceps: number
   subescapular: number
-  suprailiaca: number
+  supraIliaca: number
 }
 
 export interface CalcProps {
@@ -21,11 +21,5 @@ export interface ResultadoGordura {
   categoria: string
 }
 
-export interface FormDataCalc {
-  sexo: Sexo
-  idade: string
-  triceps: string
-  biceps: string
-  subescapular: string
-  suprailiaca: string
-}
+
+

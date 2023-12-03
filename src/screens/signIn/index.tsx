@@ -25,7 +25,7 @@ import { Alert } from "react-native"
 export function SignIn() {
   const { navigate } = useNavigation<any>()
   const schema = Yup.object().shape({
-    email: Yup.string().required("digite seu CPF"),
+    email: Yup.string().required("digite seu CPF").trim(),
     password: Yup.string().required("Campo obrigatorio"),
   })
 

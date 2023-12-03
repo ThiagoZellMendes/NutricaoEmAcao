@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react"
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
-import { Alert, Text } from "react-native"
+import {
+  ActivityIndicator,
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native"
 import uuid from "react-native-uuid"
 import * as Yup from "yup"
 import { ButtonComponent } from "../../../components/ButtonComponent"
@@ -37,13 +44,14 @@ export function CalculationImc() {
   const { patient } = route.params as { patient: PatientProps }
   const [genre, setGenre] = useState<Sexo>(patient.genre || ("" as any))
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [formValues, setFormValues] = useState({
-      age: '',
-      weight: '',
-      height: '',
-      imc: patient.imc,
-      diagnosticImc: patient.diagnosticImc,
-    } as PatientProps)
+    age: "",
+    weight: "",
+    height: "",
+    imc: patient.imc,
+    diagnosticImc: patient.diagnosticImc,
+  } as PatientProps)
 
   const closeModal = () => {
     setIsModalVisible(false)
@@ -108,9 +116,6 @@ export function CalculationImc() {
       if (!result) {
         reset()
       }
-      console.log("🔥", result)
-      console.log("✨", newCalculation)
-
       Alert.alert("Calculo Feito com sucesso!")
     } catch (err) {
       console.log(err)
@@ -118,20 +123,24 @@ export function CalculationImc() {
   }
 
   function handleSavePatient() {
-    firestore()
-      .collection("patients")
-      .doc(patient.key)
-      .update({
+    setLoading(true)
+
+    try {
+      firestore().collection("patients").doc(patient.key).update({
         age: formValues.age,
         genre: genre,
         weight: formValues.weight,
         height: formValues.height,
         imc: formValues.imc,
         diagnosticImc: formValues.diagnosticImc,
-       })
-      .then(() => {
-      <ConfirmationModal isVisible={isModalVisible} closeModal={closeModal} title={"Paciente salvo com sucesso"}/>
       })
+      setTimeout(() => setLoading(false), 1000)
+      setTimeout(() => setIsModalVisible(true), 2000)
+    } catch (error) {
+      setLoading(false)
+      Alert.alert("Ocorreu um erro ao salvar paciente")
+      console.error("Erro:", error)
+    }
   }
 
   function handlegenreButton(type: Sexo) {
@@ -141,16 +150,16 @@ export function CalculationImc() {
   function handleClean() {
     setGenre(null),
       setFormValues({
-        age: '',
-        weight: '',
-        height: '',
-        imc: '',
-        diagnosticImc: ''
+        age: "",
+        weight: "",
+        height: "",
+        imc: "",
+        diagnosticImc: "",
       } as unknown as PatientProps)
     reset({
-      age: '',
-      weight: '',
-      height: '',
+      age: "",
+      weight: "",
+      height: "",
     })
     Alert.alert("Calculos Resetados")
   }
@@ -158,19 +167,17 @@ export function CalculationImc() {
   // useEffect(() => {
   // }, [])
 
-  console.log(formValues)
+  console.log("🔥",formValues)
   return (
     <Container>
       <BackgroundContent>
         <Content showsVerticalScrollIndicator={false}>
           <ContainerCalculaters>
             <ResultCalculationsComponent
-              colorResult={
-                (formValues?.diagnosticImc as any || '')
-              }
+              colorResult={(formValues?.diagnosticImc as any) || ""}
               percentageResult={
                 formValues?.imc ? (
-                  patient.imc || formValues?.imc.toString()
+                  formValues?.imc.toString()
                 ) : (
                   <Text
                     style={{
@@ -272,6 +279,41 @@ export function CalculationImc() {
           </ButtonContainerSave>
         </Content>
       </BackgroundContent>
+      {loading && (
+        <Modal transparent={true} animationType="fade" visible={loading}>
+          <Modal transparent={true} animationType="fade" visible={loading}>
+            <View style={styles.modalContainer}>
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="green" />
+              </View>
+            </View>
+          </Modal>
+        </Modal>
+      )}
+      <ConfirmationModal
+        isVisible={isModalVisible}
+        closeModal={closeModal}
+        title={"Paciente salvo com sucesso"}
+      />
     </Container>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingContainer: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+  },
+})

@@ -180,7 +180,7 @@ function calcularDensidadeCorporal(
   idade: number
 ): number {
   const somaDobras =
-    dobras.triceps + dobras.subescapular + dobras.triceps + dobras.suprailiaca
+    dobras.triceps + dobras.subescapular + dobras.triceps + dobras.supraIliaca
 
   if (genre === Sexo.masculino) {
     if (idade >= 0 && idade <= 19) {
